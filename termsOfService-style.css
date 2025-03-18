@@ -1,0 +1,15 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(45deg, #23272A, #2C2F33);
+}
+
+.privacyPolicy-container {
+    margin-top: -1100px;
+    text-align: center;
+}
+

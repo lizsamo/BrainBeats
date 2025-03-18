@@ -73,4 +73,6 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         // Redirect to login page after successful signup
         window.location.href = 'index.html';
     }
+
+    // add script for button to redirect to index.html after fulfilling all of the conditions
 });
