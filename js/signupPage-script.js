@@ -13,6 +13,8 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     document.querySelectorAll('.error-message').forEach(el => {
         el.style.display = 'none';
     });
+
+    //
     
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
