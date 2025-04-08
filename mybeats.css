@@ -1,0 +1,169 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f4f4;
+  display: flex;
+}
+
+.sidebar {
+  width: 260px;
+  background: linear-gradient(to bottom, #1da1f2, #56ccf2);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.logo span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-buttons button,
+#create-folder {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: black;
+  cursor: pointer;
+}
+
+.folders-section {
+  margin-top: auto;
+}
+
+.folders-section h2 {
+  margin: 1rem 0 0.5rem;
+}
+
+#folders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.folder {
+  display: flex;
+  align-items: center;
+  background: #ddd;
+  padding: 0.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.folder-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: none;
+  color: black;
+  font-size: 1rem;
+}
+
+.folder button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+.section-header {
+  background: #ddd;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.playlist-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.playlist-tile {
+  width: 180px;
+  height: 150px;
+  background: #cdeeff;
+  border: 1px solid #999;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.playlist-tile .title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.playlist-tile .play-btn {
+  align-self: flex-end;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+#modal-input {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
