@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #fff;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  header h1 {
+    background-color: #ddd;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .tab {
+    padding: 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .main-grid {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .sidebar {
+    width: 30%;
+  }
+  
+  .progress-chart .day {
+    margin-bottom: 15px;
+  }
+  
+  .bar {
+    height: 10px;
+    margin: 3px 0;
+  }
+  
+  .light {
+    background: #f0dede;
+  }
+  
+  .dark {
+    background: #98b9e3;
+  }
+  
+  .customize-btn {
+    margin-top: 20px;
+    padding: 10px;
+    background: #ddd;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+  }
+  
+  #quiz-options {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #quiz-options label {
+    margin-bottom: 5px;
+  }
+  
+  .playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    width: 70%;
+  }
+  
+  .playlist {
+    background: #c9e7fb;
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #333;
+    cursor: pointer;
+  }
+  
+  .generate {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .generate button {
+    padding: 12px 24px;
+    background-color: #eee;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
