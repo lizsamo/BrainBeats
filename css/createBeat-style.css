@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 20%;
+    background: linear-gradient(#42b3f5, #d5f0ff);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logo {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .logo img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .main-content {
+    width: 80%;
+    padding: 40px;
+  }
+  
+  .main-content h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .dropdown-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .dropdown {
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #b2ebf2;
+    cursor: pointer;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .dropdown summary {
+    font-size: 18px;
+    font-weight: bold;
+    list-style: none;
+    cursor: pointer;
+  }
+  
+  .dropdown input[type="file"] {
+    margin-top: 10px;
+  }
+  

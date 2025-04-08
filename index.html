@@ -32,6 +32,12 @@
             
             <button type="submit">LOG IN</button>
         </form>
+        <script>
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                window.location.href = '../html/homeDashboard.html';
+            });
+        </script>
         
         <div class="links">
             <a href="../html/forgetPassword.html">Forgot password?</a>

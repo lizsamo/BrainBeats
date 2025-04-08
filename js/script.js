@@ -34,4 +34,10 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
         console.log('Login attempt:', { email, password, remember: document.getElementById('remember').checked });
         alert('Login successful! (This is just a demo)');
     }
+    
 });
+
+function redirectToIndex(event) {
+    e.preventDefault();
+    window.location.href = '../index.html'; //redirect back to the home pade (index file)
+}
