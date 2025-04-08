@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BrainBeats</title>
+  <link rel="stylesheet" href="../css/homeDashboard-style.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="brain-logo.png" alt="Brain Logo" />
+        <h2>BrainBeats</h2>
+      </div>
+      <button onclick="window.location.href='createBeat.html'">Create a Beat</button>
+      <button>Quiz Me</button>
+      <button onclick="window.location.href='exploreBeats.html'">Explore Beats</button>
+      <button>My Beats</button>
+      <button>⚙️ Settings</button>
+    </aside>
+
+    <main class="main-content">
+      <h1>Home</h1>
+      <div class="recently-played">
+        <h3>Recently Played</h3>
+        <div class="playlists">
+          <div class="playlist">Playlist 1</div>
+          <div class="playlist">Playlist 2</div>
+          <div class="playlist">Playlist 3</div>
+          <div class="playlist">Playlist 1</div>
+          <div class="playlist">Playlist 2</div>
+          <div class="playlist">Playlist 3</div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="friend-activity">
+      <button id="activityBtn">Friend Activity</button>
+      <div class="friends-list">
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
