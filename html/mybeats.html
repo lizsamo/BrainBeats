@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Beats</title>
+  <link rel="stylesheet" href="mybeats.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="brainbeats-logo.png" alt="BrainBeats Logo">
+      <span>BrainBeats</span>
+    </div>
+
+    <div class="nav-buttons">
+      <button>Create a Beat</button>
+      <button>Quiz Me</button>
+      <button>Explore Beats</button>
+      <button>Settings</button>
+    </div>
+
+    <div class="folders-section">
+      <h2>Folders</h2>
+      <div id="folders-container"></div>
+      <button id="create-folder">+ New Folder</button>
+    </div>
+  </div>
+
+  <main>
+    <h1>My Beats</h1>
+    <section>
+      <h2 class="section-header">Most Played</h2>
+      <div class="playlist-row" id="most-played"></div>
+    </section>
+    <section>
+      <h2 class="section-header">Recently Created</h2>
+      <div class="playlist-row" id="recently-created"></div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <p id="modal-message"></p>
+      <input type="text" id="modal-input" class="hidden" />
+      <div class="modal-buttons">
+        <button id="modal-ok">OK</button>
+        <button id="modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="mybeats.js"></script>
+</body>
+</html>
