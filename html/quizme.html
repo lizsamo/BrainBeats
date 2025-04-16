@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>QuizMe - BrainBeats</title>
   <link rel="stylesheet" href="../css/quizmestyle.css" />
-  <!-- Darker Grotesque font -->
   <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -14,8 +13,8 @@
       <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
       <button class="side-btn">Home</button>
       <button class="side-btn">Create a Beat</button>
-      <button class="side-btn">Quiz Me</button>
       <button class="side-btn">My Beats</button>
+      <button class="side-btn">Explore Beats</button>
       <button class="side-btn"><span class="icon">⚙️</span> Settings</button>
     </aside>
 
@@ -24,9 +23,9 @@
         <h1>Quiz Dashboard</h1>
       </header>
 
-      <div class="controls">
-        <button class="tab">Daily Progress</button>
-        <button class="tab">Choose Your Topic</button>
+      <div class="header-row">
+        <button class="tab tab-left">Daily Progress</button>
+        <button class="tab tab-right">Choose Your Topic</button>
       </div>
 
       <div class="main-grid">
@@ -67,10 +66,11 @@
       </div>
 
       <div class="generate">
-        <button onclick="generateQuiz()">Generate Quiz</button>
+        <button id="generateBtn">Generate Quiz</button>
+
       </div>
-    </div> <!-- close main-content -->
-  </div> <!-- close container -->
+    </div> <!-- main-content -->
+  </div> <!-- container -->
 
   <script src="../js/quizme.js"></script>
 </body>
