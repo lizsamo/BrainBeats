@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Beats</title>
+
+  <!-- Darker Grotesque font -->
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/mybeats.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo">
+      <button class="side-btn">Home</button>
+      <button class="side-btn">Create a Beat</button>
+      <button class="side-btn">Quiz Me</button>
+      <button class="side-btn">Explore Beats</button>
+      <button class="side-btn"><span class="icon">⚙️</span> Settings</button>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="title">My Beats</h1>
+
+      <section class="section">
+        <h2 class="section-title">Most Played</h2>
+        <div class="playlist-grid" id="most-played"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Recently Created</h2>
+        <div class="playlist-grid" id="recently-created"></div>
+      </section>
+    </main>
+
+    <aside class="folders-panel">
+      <!--button id="folderToggle">Folders</button-->
+      <div class="folders-header">
+        <h2>Folders</h2>
+        <button id="create-folder" class="side-btn">+ New Folder</button>
+      </div>
+      <div id="folders-container"></div>
+      
+    </aside>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <p id="modal-message"></p>
+      <input type="text" id="modal-input" class="hidden" />
+      <div class="modal-buttons">
+        <button id="modal-ok">OK</button>
+        <button id="modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/mybeats.js"></script>
+</body>
+</html>

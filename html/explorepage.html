@@ -4,16 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Explore Page - BrainBeats</title>
-  <link rel="stylesheet" href="explorepage.css" />
+
+  <!-- Darker Grotesque font -->
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="../css/explorepage.css" />
 </head>
 <body>
   <div class="container">
     <aside class="sidebar">
-      <img src="logo.png" alt="BrainBeats Logo" class="logo" />
+      <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
+      <button class="side-btn">Home</button>
       <button class="side-btn">Create a Beat</button>
       <button class="side-btn">Quiz Me</button>
       <button class="side-btn">My Beats</button>
-      <button class="side-btn"><span class="icon">⚙️</span> Settings</button>
+      <button class="side-btn"><span class="icon">⚙️</span>Settings</button>
     </aside>
 
     <main class="main-content">
@@ -39,8 +45,31 @@
         </div>
       </section>
     </main>
+
+
+    <aside class="Friend-Activity">
+      <button id="activityBtn">Friend Activity</button>
+      <div class="friends-list">
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+      </div>
+    </aside>
+
   </div>
 
-  <script src="explorepagescript.js"></script>
+  <script src="../js/explorepagescript.js"></script>
 </body>
 </html>

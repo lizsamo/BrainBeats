@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Darker Grotesque', sans-serif;
-  background-color: #FFFFFF; /* Updated for white background */
+  background-color: #FFFFFF;
 }
 
 .container {
@@ -27,12 +27,12 @@ body {
   width: 100%;
   max-width: 300px;
   height: auto;
-  margin-bottom: 65px;
+  margin-bottom: 40px;
   align-self: center;
 }
 
 .sidebar button {
-  margin-top: 20px;
+  margin-top: 10px;
   background-color: #FFFFFF;
   border: 2px solid #000000;
   padding: 10px 20px;
@@ -40,42 +40,31 @@ body {
   font-size: 1rem;
   text-align: center;
   border-radius: 10px; 
-  margin-bottom: 10px;
-}
-
-
-.icon {
-  margin-right: 8px;
+  margin-bottom: 12px;
 }
 
 
 .main-content {
   flex: 1;
   padding: 40px;
-  background-color: #FFFFFF; /* white background */
+  background-color: #FFFFFF;
 }
 
-.title {
-  margin-top: 40px;
-  font-size: 3rem;
+.main-content h1 {
+  font-size: 3.5rem;
   margin-bottom: 30px;
 }
 
-.section {
-  margin-bottom: 30px;
-}
 
-.section-title {
-  background-color: #D9D9D9; /* grey from Figma */
+.recently-played h3 {
+  background-color: #D9D9D9;
   display: inline-block;
   padding: 1px 10px;
   margin-bottom: 15px;
   font-size: 1.7rem;
   border-radius: 5px;
-
-  
-  /* Drop shadow */
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 40px;
 }
 
 .playlist-grid {
@@ -92,17 +81,6 @@ body {
   border-radius: 10px;
   position: relative;
   cursor: pointer;
-}
-
-.selected {
-  border: 2px solid blue;
-}
-
-.play-icon {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  font-size: 1rem;
 }
 
 .Friend-Activity {
@@ -134,4 +112,15 @@ body {
   margin-bottom: 15px;
   /* Drop shadow */
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.selected {
+  border: 2px solid blue;
+}
+
+.play-icon {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 1rem;
 }

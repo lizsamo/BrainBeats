@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Darker Grotesque', sans-serif;
-  background-color: #FFFFFF; /* Updated for white background */
+  background-color: #FFFFFF;
 }
 
 .container {
@@ -17,7 +17,6 @@ body {
   height: 100vh;
   padding: 20px;
   width: 300px;
-
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -31,7 +30,7 @@ body {
   align-self: center;
 }
 
-.sidebar button {
+.side-btn {
   margin-top: 20px;
   background-color: #FFFFFF;
   border: 2px solid #000000;
@@ -39,20 +38,19 @@ body {
   cursor: pointer;
   font-size: 1rem;
   text-align: center;
-  border-radius: 10px; 
+  border-radius: 10px;
   margin-bottom: 10px;
 }
-
 
 .icon {
   margin-right: 8px;
 }
 
-
 .main-content {
   flex: 1;
   padding: 40px;
-  background-color: #FFFFFF; /* white background */
+  background-color: #FFFFFF;
+  overflow-y: auto;
 }
 
 .title {
@@ -66,15 +64,12 @@ body {
 }
 
 .section-title {
-  background-color: #D9D9D9; /* grey from Figma */
+  background-color: #D9D9D9;
   display: inline-block;
   padding: 1px 10px;
   margin-bottom: 15px;
   font-size: 1.7rem;
   border-radius: 5px;
-
-  
-  /* Drop shadow */
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -85,7 +80,7 @@ body {
 }
 
 .playlist {
-  background-color: #C3E9FA; /* light blue from Figma */
+  background-color: #C3E9FA;
   padding: 50px;
   text-align: center;
   border: 2px solid #000000;
@@ -105,33 +100,100 @@ body {
   font-size: 1rem;
 }
 
-.Friend-Activity {
-  margin-top: 100px;
+/* Folder Panel (Right Side) */
+.folders-panel {
+  margin-top: 180px;
   width: 25%;
   background-color: #fff;
   padding: 20px;
-  margin-right: 20px;
-}
-
-#activityBtn {
-  width: 100%;
-  padding: 10px;
-  background-color: #dcdcdc;
-  border: none;
-  border-radius: 5px;
-  margin-bottom: 20px;
   margin-right: 10px;
-  cursor: pointer;
-  /* Drop shadow */
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
 }
 
-.friend-card {
-  margin-bottom: 15px;
-  background-color: #e0e0e0;
-  padding: 15px;
+.folders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.folders-header h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.folders-header .side-btn {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 1rem;
+}
+
+#folders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.folder {
+  display: flex;
+  align-items: center;
+  background: #ddd;
+  padding: 0.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.folder-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: none;
+  color: black;
+  font-size: 1rem;
+}
+
+.folder button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+/* Modal Styles */
+.modal.hidden {
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
   border-radius: 10px;
-  margin-bottom: 15px;
-  /* Drop shadow */
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+#modal-input {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
