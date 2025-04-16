@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizMe - BrainBeats</title>
+  <link rel="stylesheet" href="../css/quizmestyle.css" />
+  <!-- Darker Grotesque font -->
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
+      <button class="side-btn">Home</button>
+      <button class="side-btn">Create a Beat</button>
+      <button class="side-btn">Quiz Me</button>
+      <button class="side-btn">My Beats</button>
+      <button class="side-btn"><span class="icon">⚙️</span> Settings</button>
+    </aside>
+
+    <div class="main-content">
+      <header>
+        <h1>Quiz Dashboard</h1>
+      </header>
+
+      <div class="controls">
+        <button class="tab">Daily Progress</button>
+        <button class="tab">Choose Your Topic</button>
+      </div>
+
+      <div class="main-grid">
+        <div class="quiz-sidebar">
+          <div class="progress-chart">
+            <div class="day">Mon
+              <div class="bar light" style="width: 44px;"></div>
+              <div class="bar dark" style="width: 123px;"></div>
+            </div>
+            <div class="day">Tue
+              <div class="bar light" style="width: 136px;"></div>
+              <div class="bar dark" style="width: 220px;"></div>
+            </div>
+            <div class="day">
+              <div class="bar light" style="width: 230px;"></div>
+              <div class="bar dark" style="width: 34px;"></div>
+            </div>
+          </div>
+
+          <button class="customize-btn">Customize Quiz Type</button>
+
+          <form id="quiz-options">
+            <label><input type="checkbox" name="type" value="truefalse"/> True / False</label>
+            <label><input type="checkbox" name="type" value="fillblank"/> Fill In the Blank</label>
+            <label><input type="checkbox" name="type" value="mcq"/> Multiple Choice</label>
+            <label><input type="checkbox" name="type" value="dropdown"/> Dropdown</label>
+          </form>
+        </div>
+
+        <div class="playlist-grid">
+          <div class="playlist" data-id="1">Playlist 1</div>
+          <div class="playlist" data-id="2">Playlist 2</div>
+          <div class="playlist" data-id="3">Playlist 3</div>
+          <div class="playlist" data-id="4">Playlist 4</div>
+          <div class="playlist" data-id="5">Playlist 5</div>
+          <div class="playlist" data-id="6">Playlist 6</div>
+        </div>
+      </div>
+
+      <div class="generate">
+        <button onclick="generateQuiz()">Generate Quiz</button>
+      </div>
+    </div> <!-- close main-content -->
+  </div> <!-- close container -->
+
+  <script src="../js/quizme.js"></script>
+</body>
+</html>

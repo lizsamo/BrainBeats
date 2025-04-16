@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  font-family: 'Darker Grotesque', sans-serif;
+  background-color: #FFFFFF;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  background-image: url('https://i.imgur.com/3TfXCwb.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  padding: 20px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logo {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.side-btn {
+  background-color: #FFFFFF;
+  border: 2px solid #000000;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 10px; 
+  margin-bottom: 10px;
+  margin-top: 20px;
+
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  text-align: center;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 30px;
+}
+
+.dropdown-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;              /* ← allow full width use */
+  margin-bottom: 20px;
+}
+
+
+.dropdown {
+  background-color: #C3E9FA;
+  border-radius: 12px;
+  padding: 15px;
+  border: 2px solid #000000;
+  cursor: pointer;
+  width: 80%;               /* ← make this a percentage for responsiveness */
+  max-width: 800px;         /* ← wider max width */
+  position: relative;
+  box-sizing: border-box;
+}
+
+
+.dropdown summary {
+  font-size: 1.3rem;
+  font-weight: bold;
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown::before {
+  content: "▶";
+  position: absolute;
+  top: 18px;
+  left: 15px;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown[open]::before {
+  transform: rotate(90deg);
+}
+
+.dropdown::after {
+  content: "✔";
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1rem;
+  color: green;
+  display: none;
+}
+
+.dropdown.completed::after {
+  display: block;
+}
+
+.dropdown input[type="file"],
+.dropdown button {
+  margin-top: 10px;
+}
+
