@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - BrainBeats</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/settings-style.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
+      <div class="nav-links">
+        <a class="side-btn" href="homeDashboard.html">Home</a>
+        <a class="side-btn" href="createBeat.html">Create a Beat</a>
+        <a class="side-btn" href="quizme.html">Quiz Me</a>
+        <a class="side-btn" href="mybeats.html">My Beats</a>
+        <a class="side-btn" href="explorepage.html">Explore Beats</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="title">Settings</h1>
+
+      <section class="settings-section">
+        <h2>Account</h2>
+        <label>Email:
+          <input type="email" value="user@example.com" disabled />
+        </label>
+
+        <label>Password:
+          <input type="password" placeholder="Change Password" />
+        </label>
+
+        <button class="settings-btn">Update Password</button>
+      </section>
+
+      <section class="settings-section">
+        <h2>Preferences</h2>
+        <label>
+          <input type="checkbox" /> Enable dark mode (coming soon)
+        </label>
+
+        <label>
+          <input type="checkbox" checked /> Enable friend activity
+        </label>
+
+        <button class="settings-btn">Save Preferences</button>
+      </section>
+
+      <section class="settings-section danger-zone">
+        <h2>Log Out Account</h2>
+        <button class="logout-btn">Log Out</button>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

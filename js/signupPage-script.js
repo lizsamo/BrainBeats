@@ -76,5 +76,5 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         window.location.href = 'index.html';
     }
 
-    // add script for button to redirect to index.html after fulfilling all of the conditions
+    // add script for button to redirect to loginPage.html after fulfilling all of the conditions
 });
