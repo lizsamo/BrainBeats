@@ -11,11 +11,13 @@
   <div class="container">
     <aside class="sidebar">
       <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
-      <button class="side-btn">Home</button>
-      <button class="side-btn">Create a Beat</button>
-      <button class="side-btn">My Beats</button>
-      <button class="side-btn">Explore Beats</button>
-      <button class="side-btn"><span class="icon">⚙️</span> Settings</button>
+      <div class="nav-links">
+        <a class="side-btn" href="homeDashboard.html">Home</a>
+        <a class="side-btn" href="createBeat.html">Create a Beat</a>
+        <a class="side-btn" href="mybeats.html">My Beats</a>
+        <a class="side-btn" href="explorepage.html">Explore Beats</a>
+        <a class="side-btn" href="settings.html">⚙️ Settings</a>
+      </div>
     </aside>
 
     <div class="main-content">
@@ -67,10 +69,9 @@
 
       <div class="generate">
         <button id="generateBtn">Generate Quiz</button>
-
       </div>
-    </div> <!-- main-content -->
-  </div> <!-- container -->
+    </div>
+  </div>
 
   <script src="../js/quizme.js"></script>
 </body>

@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Explore Page - BrainBeats</title>
 
-  <!-- Darker Grotesque font -->
   <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
-
-
   <link rel="stylesheet" href="../css/explorepage.css" />
 </head>
 <body>
   <div class="container">
     <aside class="sidebar">
       <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
-      <button class="side-btn">Home</button>
-      <button class="side-btn">Create a Beat</button>
-      <button class="side-btn">Quiz Me</button>
-      <button class="side-btn">My Beats</button>
-      <button class="side-btn"><span class="icon">⚙️</span>Settings</button>
+
+      <div class="nav-links">
+        <a class="side-btn" href="homeDashboard.html">Home</a>
+        <a class="side-btn" href="createBeat.html">Create a Beat</a>
+        <a class="side-btn" href="quizme.html">Quiz Me</a>
+        <a class="side-btn" href="mybeats.html">My Beats</a>
+        <a class="side-btn" href="settings.html">⚙️ Settings</a>
+      </div>
     </aside>
 
     <main class="main-content">
@@ -46,7 +46,6 @@
       </section>
     </main>
 
-
     <aside class="Friend-Activity">
       <button id="activityBtn">Friend Activity</button>
       <div class="friends-list">
@@ -67,7 +66,6 @@
         </div>
       </div>
     </aside>
-
   </div>
 
   <script src="../js/explorepagescript.js"></script>

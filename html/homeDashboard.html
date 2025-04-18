@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Home Page - BrainBeats</title>
-  
-    <!-- Darker Grotesque font -->
-    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
-  
-    <link rel="stylesheet" href="../css/homeDashboard-style.css" />
-  </head>
-  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Page - BrainBeats</title>
+
+  <!-- Darker Grotesque font -->
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/homeDashboard-style.css" />
+</head>
+
 <body>
   <div class="container">
     <aside class="sidebar">
       <div class="logo">
         <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
       </div>
-      <button onclick="window.location.href='createBeat.html'">Create a Beat</button>
-      <button>Quiz Me</button>
-      <button onclick="window.location.href='exploreBeats.html'">Explore Beats</button>
-      <button>My Beats</button>
-      <button>⚙️ Settings</button>
+      <div class="nav-links">
+        <a class="side-btn" href="createBeat.html">Create a Beat</a>
+        <a class="side-btn" href="quizme.html">Quiz Me</a>
+        <a class="side-btn" href="explorepage.html">Explore Beats</a>
+        <a class="side-btn" href="mybeats.html">My Beats</a>
+        <a class="side-btn" href="settings.html">⚙️ Settings</a>
+      </div>
     </aside>
 
     <main class="main-content">
@@ -29,17 +30,16 @@
       <div class="recently-played">
         <h3>Recently Played</h3>
         <div class="playlist-grid">
-          <div class="playlist">Playlist 1<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 2<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 3<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 4<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 5<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 6<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 7<span class="play-icon">▶️</span></div>
-          <div class="playlist">Playlist 8<span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 1 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 2 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 3 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 4 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 5 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 6 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 7 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 8 <span class="play-icon">▶️</span></div>
         </div>
       </div>
-         
     </main>
 
     <aside class="Friend-Activity">
@@ -62,8 +62,9 @@
         </div>
       </div>
     </aside>
-
   </div>
-  <script src="script.js"></script>
+
+  <script src="homeDashboard.js"></script>
 </body>
 </html>
+

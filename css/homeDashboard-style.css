@@ -17,10 +17,8 @@ body {
   height: 100vh;
   padding: 20px;
   width: 300px;
-
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .logo {
@@ -31,18 +29,35 @@ body {
   align-self: center;
 }
 
-.sidebar button {
-  margin-top: 10px;
+.nav-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 100px;   
+
+}
+
+/* Updated sidebar link buttons */
+.side-btn {
+  display: block;
   background-color: #FFFFFF;
   border: 2px solid #000000;
   padding: 10px 20px;
-  cursor: pointer;
+  margin-bottom: 30px;
   font-size: 1rem;
+  color: #000000;
   text-align: center;
-  border-radius: 10px; 
-  margin-bottom: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+  
 }
 
+.side-btn:hover {
+  background-color: #f0f0f0;
+}
 
 .main-content {
   flex: 1;
@@ -54,7 +69,6 @@ body {
   font-size: 3.5rem;
   margin-bottom: 30px;
 }
-
 
 .recently-played h3 {
   background-color: #D9D9D9;
@@ -74,7 +88,7 @@ body {
 }
 
 .playlist {
-  background-color: #C3E9FA; /* light blue from Figma */
+  background-color: #C3E9FA;
   padding: 50px;
   text-align: center;
   border: 2px solid #000000;
@@ -100,7 +114,6 @@ body {
   margin-bottom: 20px;
   margin-right: 10px;
   cursor: pointer;
-  /* Drop shadow */
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -109,8 +122,6 @@ body {
   background-color: #e0e0e0;
   padding: 15px;
   border-radius: 10px;
-  margin-bottom: 15px;
-  /* Drop shadow */
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
