@@ -1,62 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - BrainBeats</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <!-- Additional CSS for the signup page -->
-    <link rel="stylesheet" href="../css/signupPage-style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - BrainBeats</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/signupPage-style.css" />
+  <!-- Darker Grotesque font -->
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
+
 <body>
-    <div class="login-container">
-        <div class="logo">
-            <h1>BrainBeats</h1>
-        </div>
-        
-        <form id="signup-form">
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" autocomplete="email" required>
-                <div id="email-error" class="error-message">Please enter a valid email address</div>
-            </div>
-            
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" autocomplete="username" required>
-                <div id="username-error" class="error-message">Username must be 3-20 characters</div>
-            </div>
-            
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" autocomplete="new-password" required>
-                <div class="password-requirements">
-                    Password must be at least 8 characters and include a letter and a number
-                </div>
-                <div id="password-error" class="error-message">Password doesn't meet requirements</div>
-            </div>
-            
-            <div class="input-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" autocomplete="new-password" required>
-                <div id="confirm-password-error" class="error-message">Passwords don't match</div>
-            </div>
-            
-            <div class="terms-checkbox">
-                <input type="checkbox" id="terms" required>
-                <label for="terms">
-                    I agree to BrainBeats' <a href="../html/termsOfService.html">Terms of Service</a> and <a href="../html/privacy-Policy.html">Privacy Policy</a>
-                </label>
-            </div>
-            
-            <button type="submit">CREATE ACCOUNT</button>
-        </form>
-        
-        <div class="login-link">
-            Already have an account? <a href="../index.html">Log in</a>
-        </div>
+  <div class="page-wrapper">
+    <!-- Left Side -->
+    <div class="left-side">
+      <img src="https://i.imgur.com/EbOOKtx.png" alt="BrainBeats Logo" class="hero-logo" />
+      <h1 class="hero-heading">Welcome!</h1>
     </div>
 
-    <script src="../js/signupPage.script.js"></script>
+    <!-- Right Side -->
+    <div class="right-side">
+      <div class="login-container">
+        <div class="logo">
+          <h1>Create Account</h1>
+          <p class="subheading">Start your musical study journey</p>
+        </div>
+
+        <form id="signup-form">
+             <div class="input-group">
+                <label for="email">Email</label>
+                <div id="email-error" class="error-message">Please enter a valid email address</div>
+                <input type="email" id="email" autocomplete="email" required />
+              </div>
+              
+              <div class="input-group">
+                <label for="username">Username</label>
+                <div id="username-error" class="error-message">Username must be 3-20 characters</div>
+                <input type="text" id="username" autocomplete="username" required />
+              </div>
+              
+              <div class="input-group">
+                <label for="password">Password</label>
+                <div class="password-requirements">
+                  Password must be at least 8 characters and include a letter and a number
+                </div>
+                <div id="password-error" class="error-message">Password doesn't meet requirements</div>
+                <input type="password" id="password" autocomplete="new-password" required />
+              </div>
+              
+              <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <div id="confirm-password-error" class="error-message">Passwords don't match</div>
+                <input type="password" id="confirm-password" autocomplete="new-password" required />
+             </div>
+              
+
+          <div class="terms-checkbox">
+            <input type="checkbox" id="terms" required />
+            <label for="terms">
+              I agree to BrainBeats'
+              <a href="../html/termsOfService.html">Terms of Service</a> and
+              <a href="../html/privacy-Policy.html">Privacy Policy</a>
+            </label>
+          </div>
+
+          <button type="submit">CREATE ACCOUNT</button>
+        </form>
+
+        <div class="login-link">
+          Already have an account? <a href="../html/loginPage.html">Log in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/signupPage.script.js"></script>
 </body>
 </html>
