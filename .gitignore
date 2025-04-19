@@ -1,0 +1,26 @@
+# === Node Dependencies ===
+node_modules/
+
+# === Logs ===
+*.log
+logs/
+
+# === Environment Variables ===
+.env
+
+# === Uploads or Generated Files ===
+uploads/
+dist/
+build/
+
+# === System Files ===
+.DS_Store
+Thumbs.db
+
+# === IDE Settings ===
+.vscode/
+.idea/
+
+# === Python Bytecode ===
+__pycache__/
+*.py[cod]
