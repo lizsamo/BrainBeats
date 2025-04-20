@@ -2,7 +2,8 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const { PythonShell } = require("python-shell");
+//const fetch = require("node-fetch");
+require("dotenv").config(); // Load environment variables
 
 const app = express();
 const port = 3000;
@@ -29,54 +30,43 @@ app.post("/upload", upload.single("uploadedFile"), async (req, res) => {
     return res.status(400).json({ error: "No file uploaded." });
   }
 
-  console.log("📥 File uploaded:", file.originalname);
-  console.log("📂 File path (original):", file.path);
-
   const extension = path.extname(file.originalname);
   const renamedPath = `${file.path}${extension}`;
 
   try {
     fs.renameSync(file.path, renamedPath);
-    console.log("📁 Renamed file path:", renamedPath);
   } catch (err) {
-    console.error("❌ Rename Error:", err);
     return res.status(500).json({ error: "Rename failed" });
   }
 
-  console.log("🚀 Spawning PythonShell...");
   let extractedText = "";
+  const { PythonShell } = require("python-shell");
 
   const pyShell = new PythonShell("preprocessing_text.py", {
     args: [renamedPath],
     pythonOptions: ["-u"],
     mode: "text",
-    encoding: "utf8", // ✅ Ensures correct decoding
+    encoding: "utf8",
   });
-  
 
   pyShell.on("message", (message) => {
     extractedText += message + "\n";
   });
 
   pyShell.end((err) => {
-    console.log("📬 PythonShell finished.");
-
     if (err) {
-      console.error("❌ PythonShell Error:", err);
       return res.status(500).json({ error: "Text extraction failed." });
     }
 
     const text = extractedText.trim();
-    console.log("✅ Final extracted text:\n", text);
-
     res.json({ text: text.length > 0 ? text : "⚠️ No text extracted." });
 
     fs.unlink(renamedPath, () => {});
   });
 });
 
-// Lyric generation route
-app.post("/generate", (req, res) => {
+// Lyric generation using GPT-3.5 Turbo
+app.post("/generate", async (req, res) => {
   const { prompt } = req.body;
 
   if (!prompt || prompt.trim() === "") {
@@ -85,25 +75,43 @@ app.post("/generate", (req, res) => {
 
   console.log("📝 Prompt received for lyric generation:", prompt);
 
-  PythonShell.run("neo.py", {
-    args: [prompt],
-    pythonOptions: ["-u"],
-    mode: "text",
-  }, (err, results) => {
-    console.log("📬 Returned from GPT-Neo");
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: "You are an AI that generates short, rhyming educational lyrics to help students study.",
+          },
+          {
+            role: "user",
+            content: `Turn the following concepts into a short 4–6 line educational song or rhyme. Make it fun, easy to remember, and accurate:\n\n${prompt}`,
+          },
+        ],
+        temperature: 0.9,
+        max_tokens: 200,
+      }),
+    });
 
-    if (err) {
-      console.error("❌ GPT-Neo Error:", err);
-      return res.status(500).json({ error: "Lyric generation failed" });
-    }
+    const result = await response.json();
+    //console.log("🔎 OpenAI API Full Response:", JSON.stringify(result, null, 2));
 
-    console.log("📦 Raw GPT-Neo output:", results);
+    const lyrics = result.choices?.[0]?.message?.content || "[No lyrics returned]";
 
-    const lyrics = results.join("\n").trim();
+
     console.log("🎤 Generated Lyrics:\n", lyrics);
+    res.json({ lyrics: lyrics.trim() });
 
-    res.json({ lyrics });
-  });
+  } catch (err) {
+    console.error("❌ OpenAI generation error:", err);
+    res.status(500).json({ error: "Lyric generation failed" });
+  }
 });
 
 app.listen(port, () => {
