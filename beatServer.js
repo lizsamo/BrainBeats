@@ -205,7 +205,9 @@ app.post("/generate-full-song", async (req, res) => {
   });
 
   const submissionResult = await submission.json();
-  const songId = submissionResult?.data?.song_id || submissionResult?.song_id;
+  const songEntry = submissionResult?.data?.[0];
+  const songId = songEntry?.song_id;
+
 
   if (!songId) {
     console.error("❌ Failed to get song ID:", submissionResult);
@@ -238,7 +240,7 @@ app.post("/generate-full-song", async (req, res) => {
     tries++;
   }
 
-  const audioUrl = finalResult?.data?.audio_url || finalResult?.data?.oss_url;
+  const audioUrl = songEntry?.audio || songEntry?.audio_url || songEntry?.oss_url;
   if (!audioUrl) {
     return res.status(500).json({ error: "Song generation did not complete", result: finalResult });
   }
