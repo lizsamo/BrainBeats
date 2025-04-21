@@ -48,7 +48,28 @@
 
       <details class="dropdown">
         <summary>🎼 Pick Music</summary>
-        <input type="file" accept=".mp3,.wav,.ogg" />
+      
+        <!-- Music Genre Buttons -->
+        <div id="musicGenresContainer">
+          <button class="genreBtn">Pop</button>
+          <button class="genreBtn">Rock</button>
+          <button class="genreBtn">Hip Hop</button>
+          <button class="genreBtn">Jazz</button>
+          <button class="genreBtn">Classical</button>
+          <button class="genreBtn">Electronic</button>
+          <button class="genreBtn">Reggae</button>
+          <button class="genreBtn">Country</button>
+          <button class="genreBtn">R&B</button>
+          <button class="genreBtn">Blues</button>
+        </div>
+      
+        <!-- Audio Player for Previewing Generated Music -->
+        <div id="musicPlayerContainer" style="display: none; margin-top: 15px;">
+          <h3>🎧 Listen to Your Beat</h3>
+          <audio id="musicPlayer" controls style="width: 100%;">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
       </details>
 
       <details class="dropdown" id="vocalDropdown">
@@ -61,7 +82,7 @@
       </details>      
 
       <details class="dropdown">
-        <summary>💾 Save Music</summary>
+        <summary>💾 Save Beat</summary>
         <button id="saveBtn">Save</button>
       </details>
 
