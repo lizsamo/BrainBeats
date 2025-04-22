@@ -1,3 +1,4 @@
+// loginPage-script.js
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -33,5 +34,8 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
         // In a real app, this would connect to your authentication API
         console.log('Login attempt:', { email, password, remember: document.getElementById('remember').checked });
         alert('Login successful! (This is just a demo)');
+        
+        // Redirect to home dashboard after successful login
+        window.location.href = '/homeDashboard.html';  // Adjusted path for static serving
     }
 });
