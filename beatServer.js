@@ -17,12 +17,14 @@ app.use("/js", express.static(path.join(__dirname, "js")));
 app.use("/html", express.static(path.join(__dirname, "html")));
 
 // Main routes
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "loginPage.html"));
+});
+
 app.get("/loginPage.html", (req, res) => {
   res.sendFile(path.join(__dirname, "html", "loginPage.html"));
 });
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "html", "homeDashboard.html"));
-});
+
 app.get("/homeDashboard.html", (req, res) => {
   res.sendFile(path.join(__dirname, "html", "homeDashboard.html"));
 });
