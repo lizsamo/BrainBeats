@@ -180,3 +180,21 @@ header h1 {
   cursor: pointer;
 }
 
+.feedback {
+  margin-top: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.feedback.success {
+  color: green;
+}
+
+.feedback.error {
+  color: red;
+}
+
+.feedback.loading {
+  color: #444;
+  font-style: italic;
+}
