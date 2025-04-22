@@ -73,6 +73,6 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         alert('Account created successfully! (This is just a demo)');
 
         // Redirect to the login page after successful signup
-        window.location.href = '/loginPage.html'; // Adjusted path for static serving
+        window.location.href = '/html/loginPage.html'; 
     }
 });

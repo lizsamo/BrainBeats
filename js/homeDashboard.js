@@ -1,3 +1,5 @@
+// homeDashboard.js
+
 // Handle Friend Activity button
 document.getElementById("activityBtn").addEventListener("click", () => {
   alert("Friend activity clicked!");

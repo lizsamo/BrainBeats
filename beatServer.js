@@ -14,8 +14,13 @@ app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/html', express.static(path.join(__dirname, 'html')));
 
 // Route to serve the signup page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'html', 'signupPage.html'));
+app.get('/loginPage.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'loginPage.html'));
+});
+
+// Route to serve the home dashboard page
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'homeDashboard.html'));
 });
 
 app.listen(port, () => {
