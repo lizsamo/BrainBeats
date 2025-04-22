@@ -3,8 +3,12 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+<<<<<<< HEAD
 require("dotenv").config();
 //console.log("🔐 Loaded TopMediai Key:", process.env.TOPMEDIAI_API_KEY);
+=======
+require("dotenv").config(); // Load environment variables
+>>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
 
 const app = express();
 const port = 3000;
@@ -95,7 +99,14 @@ app.post("/generate", async (req, res) => {
     res.status(500).json({ error: "Lyric generation failed" });
   }
 });
+async function generateMusicFromTopMedi(genre) {
+  console.log("🎧 [MOCK] Pretending to generate music for:", genre);
+  return {
+    music_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  };
+}
 
+<<<<<<< HEAD
 //song generation route
 app.post("/generate-full-song", async (req, res) => {
   const { lyrics, genre } = req.body;
@@ -208,4 +219,34 @@ app.post("/generate-full-song", async (req, res) => {
 
 app.listen(port, () => {
   console.log(`🎶 BrainBeats backend running → http://localhost:${port}`);
+=======
+
+// Music generation using TopMedi
+app.post("/generate-music", async (req, res) => {
+  const { genre } = req.body;
+
+  if (!genre) {
+    return res.status(400).json({ error: "Genre is required" });
+  }
+
+  try {
+    console.log(`🎵 Generating music for genre: ${genre}`); // Log genre
+    // Call TopMedi API to generate music based on the genre
+    const musicData = await generateMusicFromTopMedi(genre); // Your function for calling TopMedi
+
+    console.log("🎶 Music data received:", musicData); // Log TopMedi response
+
+    if (musicData && musicData.music_url) {
+      res.json({ music_url: musicData.music_url });
+    } else {
+      res.status(500).json({ error: "Music not returned from TopMedi" });
+    }
+  } catch (err) {
+    console.error("❌ Error generating music:", err);
+    res.status(500).json({ error: "Failed to generate music" });
+  }
+});
+app.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
+>>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
 });

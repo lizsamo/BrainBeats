@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("saveBtn")?.addEventListener("click", () => {
   alert("Your beat has been saved!");
-  markComplete("💾 Save Music");
+  markComplete("💾 Save Beat");
 });
 
 document.getElementById("fileUpload")?.addEventListener("change", async (event) => {
@@ -37,6 +37,10 @@ document.getElementById("fileUpload")?.addEventListener("change", async (event) 
             .join("\n");
 
           quill.setText(formatted + "\n");
+<<<<<<< HEAD
+=======
+
+>>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
           document.getElementById("highlightDropdown").setAttribute("open", true);
           markComplete("📝 Highlight Text for Lyrics");
         } else {
@@ -63,6 +67,11 @@ document.getElementById("generateBtn")?.addEventListener("click", async () => {
     return;
   }
 
+<<<<<<< HEAD
+=======
+  document.getElementById("lyricsContainer").style.display = "none";
+
+>>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
   const prompt = quill.getText(selection.index, selection.length);
   document.getElementById("lyricsContainer").style.display = "none";
   document.getElementById("loadingOverlay").style.display = "flex";
@@ -150,3 +159,38 @@ function markComplete(label) {
     }
   });
 }
+
+// 🎵 Request music from TopMedi
+async function requestMusicFromTopMedi(genre) {
+  try {
+    const response = await fetch("/generate-music", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ genre}),
+    });
+
+    const data = await response.json();
+
+    if (data.music_url) {
+      const player = document.getElementById("musicPlayer");
+      const container = document.getElementById("musicPlayerContainer");
+
+      player.src = data.music_url;
+      container.style.display = "block";
+      player.scrollIntoView({ behavior: "smooth" });
+    } else {
+      alert("⚠️ Music was not returned from TopMedi.");
+    }
+  } catch (err) {
+    console.error("🎵 Music generation failed:", err);
+    alert("Something went wrong while generating the music.");
+  }
+}
+// Add event listeners to the genre buttons
+const genreButtons = document.querySelectorAll('.genreBtn');
+genreButtons.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    const genre = event.target.textContent; // Get the genre from the button text
+    requestMusicFromTopMedi(genre);  // Request music for that genre
+  });
+});

@@ -82,10 +82,53 @@
       </div>
     </main>
 
+<<<<<<< HEAD
     <!-- 🔄 Loading Overlay -->
     <div id="loadingOverlay">
       <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="loading-logo" />
       <div class="loading-text">Loading<span class="dots"></span></div>
+=======
+      <details class="dropdown">
+        <summary>🎼 Pick Music</summary>
+      
+        <!-- Music Genre Buttons -->
+        <div id="musicGenresContainer">
+          <button class="genreBtn">Pop</button>
+          <button class="genreBtn">Rock</button>
+          <button class="genreBtn">Hip Hop</button>
+          <button class="genreBtn">Jazz</button>
+          <button class="genreBtn">Classical</button>
+          <button class="genreBtn">Electronic</button>
+          <button class="genreBtn">Reggae</button>
+          <button class="genreBtn">Country</button>
+          <button class="genreBtn">R&B</button>
+          <button class="genreBtn">Blues</button>
+        </div>
+      
+        <!-- Audio Player for Previewing Generated Music -->
+        <div id="musicPlayerContainer" style="display: none; margin-top: 15px;">
+          <h3>🎧 Listen to Your Beat</h3>
+          <audio id="musicPlayer" controls style="width: 100%;">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </details>
+
+      <details class="dropdown" id="vocalDropdown">
+        <summary>🧑‍🎤 Pick Vocals</summary>
+        <label for="voiceSelect">Choose Vocal Type:</label>
+        <select id="voiceSelect" name="voiceSelect">
+          <option value="male">Male Voice</option>
+          <option value="female">Female Voice</option>
+        </select>
+      </details>      
+
+      <details class="dropdown">
+        <summary>💾 Save Beat</summary>
+        <button id="saveBtn">Save</button>
+      </details>
+
+>>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
     </div>
 
 
