@@ -32,6 +32,20 @@ app.get("/createBeat.html", (req, res) => {
   res.sendFile(path.join(__dirname, "html", "createBeat.html"));
 });
 
+app.get("/quizme.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "quizme.html"));
+});
+app.get("/explorepage.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "explorepage.html"));
+});
+app.get("/mybeats.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "mybeats.html"));
+});
+app.get("/settings.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "html", "settings.html"));
+});
+ 
+
 // Modularized backend routes
 const createBeatRoutes = require("./backend_js/b_createBeat.js");
 app.use("/", createBeatRoutes); // Mount all related POST endpoints
