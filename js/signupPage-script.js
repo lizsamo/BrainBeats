@@ -14,8 +14,6 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         el.style.display = 'none';
     });
 
-    //
-    
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -69,12 +67,32 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     }
     
     if (isValid) {
-        // In a real app, this would connect to your registration API
-        console.log('Sign up attempt:', { email, username, password });
-        alert('Account created successfully! (This is just a demo)');
-        // Redirect to login page after successful signup
-        window.location.href = 'index.html';
-    }
+        // If all fields are valid, prepare data to send to the backend
+        const userData = {
+            email,
+            username,
+            password
+        };
 
-    // add script for button to redirect to loginPage.html after fulfilling all of the conditions
+        // Send POST request to backend (beatserver.js)
+        fetch('http://localhost:3000/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                // Account created successfully
+                alert(data.message);
+                window.location.href = 'loginPage.html'; // Redirect to login page
+            }
+        })
+        .catch(err => {
+            console.error('Error signing up:', err);
+            alert('There was an error creating your account. Please try again later.');
+        });
+    }
 });

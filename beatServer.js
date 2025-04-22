@@ -1,3 +1,4 @@
+const pool = require("./db");
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
@@ -94,53 +95,6 @@ app.post("/generate", async (req, res) => {
     res.status(500).json({ error: "Lyric generation failed" });
   }
 });
-
-// app.post("/generate-vocals", async (req, res) => {
-//   const { voice, lyrics } = req.body;
-//   if (!voice || !lyrics) return res.status(400).json({ error: "Missing voice or lyrics." });
-
-//   const speakerMap = {
-//     female: "b27c1f98-1ef0-11ef-9faa-00163e045692", // Hannah
-//     male: "00151554-3826-11ee-a861-00163e2ac61b"   // Brian
-//   };
-
-//   const speakerId = speakerMap[voice] || speakerMap["male"];
-
-//   const payload = {
-//     text: lyrics,
-//     speaker: speakerId,
-//     emotion: "Neutral"
-//   };
-
-//   try {
-//     console.log("📤 Sending to TopMediai:", payload);
-
-//     const response = await fetch("https://api.topmediai.com/v1/text2speech", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "x-api-key": process.env.TOPMEDIAI_API_KEY
-//       },
-//       body: JSON.stringify(payload)
-//     });
-
-//     const result = await response.json();
-//     const audioUrl = result?.data?.oss_url;
-
-//     if (!response.ok || !audioUrl) {
-//       return res.status(response.status).json({
-//         error: result?.message || "Topmediai API error",
-//         details: result
-//       });
-//     }
-
-//     res.json({ audioUrl });
-
-//   } catch (error) {
-//     console.error("❌ Vocal generation error:", error);
-//     res.status(500).json({ error: "Vocal generation failed (server error)." });
-//   }
-// });
 
 //song generation route
 app.post("/generate-full-song", async (req, res) => {

@@ -97,46 +97,6 @@ document.getElementById("generateBtn")?.addEventListener("click", async () => {
   }
 });
 
-
-// document.getElementById("generateVocalBtn")?.addEventListener("click", async () => {
-//   const voice = document.getElementById("voiceSelect").value;
-//   const lyrics = document.getElementById("lyricsOutput").textContent.trim();
-
-//   if (!lyrics) {
-//     alert("Generate lyrics before creating vocals.");
-//     return;
-//   }
-
-//   document.getElementById("loadingOverlay").style.display = "flex";
-
-//   try {
-//     const response = await fetch("/generate-vocals", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ voice, lyrics })
-//     });
-
-//     const data = await response.json();
-//     if (data.audioUrl) {
-//       //const audio = new Audio(data.audioUrl);
-//       //audio.play();
-//       console.log("🎧 Vocal audio URL:", data.audioUrl);
-
-//     } else {
-//       alert("Vocal generation failed.");
-//     }
-
-//     markComplete("🧑‍🎤 Pick Vocals");
-//   } catch (err) {
-//     console.error("❌ Vocal generation error:", err);
-//     alert("Something went wrong while generating vocals.");
-//   } finally {
-//     document.getElementById("loadingOverlay").style.display = "none";
-//   }
-// });
-
-
-
 document.getElementById("generateSongBtn")?.addEventListener("click", async () => {
   const lyrics = document.getElementById("lyricsOutput").textContent.trim();
   //const voice = document.getElementById("voiceSelect").value;
