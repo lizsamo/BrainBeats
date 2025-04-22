@@ -3,12 +3,12 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-<<<<<<< HEAD
+
 require("dotenv").config();
 //console.log("🔐 Loaded TopMediai Key:", process.env.TOPMEDIAI_API_KEY);
-=======
+
 require("dotenv").config(); // Load environment variables
->>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
+
 
 const app = express();
 const port = 3000;
@@ -106,7 +106,6 @@ async function generateMusicFromTopMedi(genre) {
   };
 }
 
-<<<<<<< HEAD
 //song generation route
 app.post("/generate-full-song", async (req, res) => {
   const { lyrics, genre } = req.body;
@@ -217,10 +216,6 @@ app.post("/generate-full-song", async (req, res) => {
   res.json({ audioUrl });
 });
 
-app.listen(port, () => {
-  console.log(`🎶 BrainBeats backend running → http://localhost:${port}`);
-=======
-
 // Music generation using TopMedi
 app.post("/generate-music", async (req, res) => {
   const { genre } = req.body;
@@ -248,5 +243,5 @@ app.post("/generate-music", async (req, res) => {
 });
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
->>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
 });
+

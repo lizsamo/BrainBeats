@@ -37,10 +37,9 @@ document.getElementById("fileUpload")?.addEventListener("change", async (event) 
             .join("\n");
 
           quill.setText(formatted + "\n");
-<<<<<<< HEAD
-=======
 
->>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
+
+
           document.getElementById("highlightDropdown").setAttribute("open", true);
           markComplete("📝 Highlight Text for Lyrics");
         } else {
@@ -67,11 +66,8 @@ document.getElementById("generateBtn")?.addEventListener("click", async () => {
     return;
   }
 
-<<<<<<< HEAD
-=======
-  document.getElementById("lyricsContainer").style.display = "none";
 
->>>>>>> e6c295887b41e72fb4cf72b1237ef84cd0616169
+  document.getElementById("lyricsContainer").style.display = "none";
   const prompt = quill.getText(selection.index, selection.length);
   document.getElementById("lyricsContainer").style.display = "none";
   document.getElementById("loadingOverlay").style.display = "flex";
