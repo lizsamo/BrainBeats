@@ -1,4 +1,6 @@
 // loginPage-script.js
+
+// loginPage-script.js
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -31,11 +33,29 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     }
     
     if (isValid) {
-        // In a real app, this would connect to your authentication API
-        console.log('Login attempt:', { email, password, remember: document.getElementById('remember').checked });
-        alert('Login successful! (This is just a demo)');
+        // Send login request to the backend
+        const loginData = { email, password };
         
-        // Redirect to home dashboard after successful login
-        window.location.href = '/homeDashboard.html';  // Adjusted path for static serving
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Login successful!');
+                window.location.href = '/homeDashboard.html';  // Adjust path as needed
+            } else {
+                // Handle specific error messages from the server
+                alert(data.message || 'Invalid email or password.');
+            }
+        })
+        .catch(error => {
+            console.error('Error logging in:', error);
+            alert('An error occurred, please try again.');
+        });
     }
 });
