@@ -68,11 +68,26 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     }
 
     if (isValid) {
-        // In a real app, this would connect to your registration API
-        console.log('Sign up attempt:', { email, username, password });
-        alert('Account created successfully! (This is just a demo)');
-
-        // Redirect to the login page after successful signup
-        window.location.href = '/html/loginPage.html'; 
+        fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.userId) {
+                alert('✅ Account created successfully!');
+                window.location.href = '/html/loginPage.html';
+            } else {
+                alert('❌ Signup failed: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Signup error:', error);
+            alert('❌ An error occurred during signup. Please try again.');
+        });
     }
+    
 });

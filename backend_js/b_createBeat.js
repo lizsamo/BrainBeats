@@ -1,3 +1,4 @@
+//b_createBeat.js
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
@@ -14,13 +15,18 @@ router.post("/upload", upload.single("uploadedFile"), (req, res) => {
   console.log("📁 /upload route hit");
 
   const file = req.file;
-  if (!file) return res.status(400).json({ error: "No file uploaded." });
+  if (!file) {
+    console.error("❌ No file received in request.");
+    return res.status(400).json({ error: "No file uploaded." });
+  }
 
   const extension = path.extname(file.originalname);
   const renamedPath = `${file.path}${extension}`;
   try {
     fs.renameSync(file.path, renamedPath);
-  } catch {
+    console.log(`📦 File renamed to: ${renamedPath}`);
+  } catch (renameErr) {
+    console.error("❌ File rename failed:", renameErr);
     return res.status(500).json({ error: "Rename failed" });
   }
 
@@ -32,10 +38,22 @@ router.post("/upload", upload.single("uploadedFile"), (req, res) => {
     encoding: "utf8",
   });
 
-  pyShell.on("message", (msg) => (extractedText += msg + "\n"));
+  pyShell.on("message", (msg) => {
+    console.log("🐍 PythonShell message:", msg);
+    extractedText += msg + "\n";
+  });
+
   pyShell.end((err) => {
-    fs.unlink(renamedPath, () => {});
-    if (err) return res.status(500).json({ error: "Text extraction failed." });
+    fs.unlink(renamedPath, () => {
+      console.log(`🧹 Temp file deleted: ${renamedPath}`);
+    });
+
+    if (err) {
+      console.error("❌ PythonShell error:", err);
+      return res.status(500).json({ error: "Text extraction failed." });
+    }
+
+    console.log("✅ Text extracted successfully.");
     res.json({ text: extractedText.trim() || "⚠️ No text extracted." });
   });
 });
@@ -126,20 +144,20 @@ router.post("/generate-full-song", async (req, res) => {
   // Polling loop
   let tries = 0;
   let finalSongData = null;
-  
+
   while (tries++ < 10) {
     await new Promise(resolve => setTimeout(resolve, 3000));
-  
+
     const statusRes = await fetch(`https://api.topmediai.com/v2/query?song_id=${songId}`, {
       headers: { "x-api-key": process.env.TOPMEDIAI_API_KEY }
     });
     const result = await statusRes.json();
-  
+
     const songData = Array.isArray(result?.data) ? result.data[0] : result?.data;
     const status = songData?.status?.toUpperCase();
-  
+
     console.log(`🔁 Polling (${tries}/10): Status = ${status}`);
-  
+
     if (
       status === "FINISHED" ||
       (songData?.audio && songData?.audio_duration !== -1)
@@ -148,7 +166,7 @@ router.post("/generate-full-song", async (req, res) => {
       break;
     }
   }
-  
+
   if (!finalSongData?.audio) {
     console.error("❌ Song generation stuck or incomplete.");
     return res.status(504).json({
@@ -156,11 +174,9 @@ router.post("/generate-full-song", async (req, res) => {
       song_id: songId
     });
   }
-  
+
   console.log("✅ Song ready:", finalSongData.audio);
   res.json({ audioUrl: finalSongData.audio });
-  
-  
 });
 
 module.exports = router;

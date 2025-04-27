@@ -1,5 +1,4 @@
-// db.js
-
+// testDB.js
 const { Pool } = require('pg');
 const fs = require('fs');
 require('dotenv').config();
@@ -19,4 +18,15 @@ const pool = new Pool({
   }
 });
 
-module.exports = { pool };
+async function testDB() {
+  try {
+    const res = await pool.query('SELECT NOW()');
+    console.log('🕒 Current time from DB:', res.rows[0]);
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Connection failed:', err);
+    process.exit(1);
+  }
+}
+
+testDB();
