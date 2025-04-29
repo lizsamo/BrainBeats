@@ -6,11 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.getElementById("saveBtn")?.addEventListener("click", () => {
-  alert("Your beat has been saved!");
-  markComplete("💾 Save Music");
-});
-
+// Upload and extract text
 document.getElementById("fileUpload")?.addEventListener("change", async (event) => {
   const file = event.target.files[0];
   markComplete("📄 Upload Study Material");
@@ -57,6 +53,7 @@ document.getElementById("fileUpload")?.addEventListener("change", async (event) 
   }
 });
 
+// Generate Lyrics
 document.getElementById("generateBtn")?.addEventListener("click", async () => {
   const selection = quill.getSelection();
   if (!selection || selection.length === 0) {
@@ -98,6 +95,7 @@ document.getElementById("generateBtn")?.addEventListener("click", async () => {
   }
 });
 
+// Generate Full Song
 document.getElementById("generateSongBtn")?.addEventListener("click", async () => {
   const lyrics = document.getElementById("lyricsOutput").textContent.trim();
   const genre = document.getElementById("genreSelect").value;
@@ -140,6 +138,36 @@ document.getElementById("generateSongBtn")?.addEventListener("click", async () =
       downloadLink.style.display = "inline-block";
 
       markComplete("💾 Save Music");
+
+      // 🚀 Save song info to the database using session token
+      const token = localStorage.getItem('sessionToken');
+      const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
+      const filePath = data.audioUrl;
+
+      if (token) {
+        fetch("/save-song", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title, filePath }),
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.success) {
+            console.log("✅ Song saved successfully!");
+          } else {
+            console.error("❌ Failed to save song:", result.error);
+          }
+        })
+        .catch(error => {
+          console.error("❌ Error saving song:", error);
+        });
+      } else {
+        console.warn("⚠️ No session token found, cannot save song.");
+      }
+
     } else {
       alert("Failed to generate the full song.");
     }
@@ -152,9 +180,10 @@ document.getElementById("generateSongBtn")?.addEventListener("click", async () =
   }
 });
 
+// Helper function to mark completion
 function markComplete(label) {
   document.querySelectorAll(".dropdown").forEach((dropdown) => {
-    const summaryText = dropdown.querySelector("summary").textContent.trim();
+    const summaryText = dropdown.querySelector("summary")?.textContent.trim();
     if (summaryText === label) {
       dropdown.classList.add("completed");
     }
