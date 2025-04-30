@@ -139,8 +139,8 @@ document.getElementById("generateSongBtn")?.addEventListener("click", async () =
 
       markComplete("💾 Save Music");
 
-      // 🚀 Save song info to the database using session token
-      const token = localStorage.getItem('sessionToken');
+      // 🚀 Save song info to the database using JWT token
+      const token = localStorage.getItem('jwtToken');
       const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
       const filePath = data.audioUrl;
 
@@ -165,7 +165,7 @@ document.getElementById("generateSongBtn")?.addEventListener("click", async () =
           console.error("❌ Error saving song:", error);
         });
       } else {
-        console.warn("⚠️ No session token found, cannot save song.");
+        console.warn("⚠️ No JWT token found. Please log in again.");
       }
 
     } else {

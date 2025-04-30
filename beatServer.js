@@ -5,6 +5,7 @@ const path = require("path");
 require("dotenv").config();
 const { pool } = require("./db");
 
+
 const app = express();
 const port = 3000;
 
