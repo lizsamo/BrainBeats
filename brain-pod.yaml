@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: brain-pod
+  labels:
+    app: mistral
+spec:
+  nodeSelector:
+    accelerator: nvidia-a100  # <-- Make sure this label matches Nautilus GPU labeling
+
+  containers:
+    - name: mistral
+      image: ghcr.io/huggingface/text-generation-inference:latest
+      ports:
+        - containerPort: 80
+      resources:
+        limits:
+          memory: "32Gi"
+          cpu: "8"
+          nvidia.com/gpu: 1
+        requests:
+          memory: "16Gi"
+          cpu: "4"
+          nvidia.com/gpu: 1
+      env:
+        - name: MODEL_NAME
+          value: "mistralai/Mistral-7B-Instruct-v0.1"
+        - name: MAX_LENGTH
+          value: "150"
+        - name: QUANTIZE
+          value: "bitsandbytes"
+
+    # Optional: MusicGen container (disabled by default)
+    # - name: musicgen
+    #   image: 0x07cb/hf-music-gen:latest
+    #   ports:
+    #     - containerPort: 5000
+    #   resources:
+    #     limits:
+    #       memory: "8Gi"
+    #       cpu: "4"
+    #       nvidia.com/gpu: 1
+    #     requests:
+    #       memory: "4Gi"
+    #       cpu: "2"
+    #       nvidia.com/gpu: 1
+    #   env:
+    #     - name: MUSICGEN_MODEL
+    #       value: "facebook/musicgen-small"
+    #     - name: HF_API_KEY
+    #       value: ""  # <-- Replace with your HuggingFace token if needed
+    #   volumeMounts:
+    #     - name: musicgen-prompt
+    #       mountPath: /app/prompts/prompt.txt
+    #       subPath: prompt.txt
+
+  # volumes:
+  #   - name: musicgen-prompt
+  #     configMap:
+  #       name: musicgen-prompt

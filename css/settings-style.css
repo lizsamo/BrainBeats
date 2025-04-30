@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    font-family: 'Darker Grotesque', sans-serif;
+    background-color: #ffffff;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    background-image: url('https://i.imgur.com/3TfXCwb.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logo {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto 40px;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 200px;
+  }
+  
+  .side-btn {
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    margin-bottom: 10px;
+  }
+  
+  .side-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .settings-section {
+    background-color: #f8f8f8;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .settings-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+  
+  .settings-section label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+  
+  .settings-section input[type="email"],
+  .settings-section input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+  }
+  
+  .settings-btn {
+    padding: 10px 20px;
+    background-color: #32B3F5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .settings-btn:hover {
+    background-color: #199fde;
+  }
+  
+  .danger-zone {
+    background-color: #ffe5e5;
+  }
+  
+  .logout-btn {
+    background-color: #ff4444;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background-color: #cc0000;
+  }
+  

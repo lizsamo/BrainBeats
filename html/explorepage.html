@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explore Page - BrainBeats</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/explorepage.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
+
+      <div class="nav-links">
+        <a class="side-btn" href="homeDashboard.html">Home</a>
+        <a class="side-btn" href="createBeat.html">Create a Beat</a>
+        <a class="side-btn" href="quizme.html">Quiz Me</a>
+        <a class="side-btn" href="mybeats.html">My Beats</a>
+        <a class="side-btn" href="settings.html">⚙️ Settings</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="title">Explore Beats</h1>
+
+      <section class="section">
+        <h2 class="section-title">Popular Beats</h2>
+        <div class="playlist-grid">
+          <div class="playlist">Playlist 1 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 2 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 3 <span class="play-icon">▶️</span></div>
+          <div class="playlist selected">Playlist 4 <span class="play-icon">▶️</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">See What Others are Playing</h2>
+        <div class="playlist-grid">
+          <div class="playlist">Playlist 1 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 2 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 3 <span class="play-icon">▶️</span></div>
+          <div class="playlist">Playlist 4 <span class="play-icon">▶️</span></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="Friend-Activity">
+      <button id="activityBtn">Friend Activity</button>
+      <div class="friends-list">
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+        <div class="friend-card">
+          <p><strong>👤 Friend Username</strong></p>
+          <p>Studying to:</p>
+          <p>🎵 Beat by Artist</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="../js/explorepagescript.js"></script>
+</body>
+</html>
