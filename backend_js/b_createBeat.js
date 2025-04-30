@@ -143,6 +143,9 @@ router.post("/generate-full-song", async (req, res) => {
       const result = await statusRes.json();
       const songData = Array.isArray(result?.data) ? result.data[0] : result?.data;
       const status = songData?.status?.toUpperCase();
+      console.log(`🔁 Polling attempt ${tries}: Status = ${status}`);
+      console.log("🔍 Polling result raw:", JSON.stringify(result));
+
 
       if (status === "FINISHED" || (songData?.audio && songData?.audio_duration !== -1)) {
         finalSongData = songData;
@@ -176,7 +179,7 @@ router.post("/save-song", authenticateToken, async (req, res) => {
   }
 
   try {
-    
+
     const insertResult = await pool.query(
       `INSERT INTO generated_songs (user_id, title, file_path, created_at, is_private)
        VALUES ($1, $2, $3, NOW(), false) RETURNING *`,

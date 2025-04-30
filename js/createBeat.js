@@ -139,35 +139,8 @@ document.getElementById("generateSongBtn")?.addEventListener("click", async () =
 
       markComplete("💾 Save Music");
 
-      // 🚀 Save song info to the database using JWT token
-      const token = localStorage.getItem('jwtToken');
-      const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
-      const filePath = data.audioUrl;
-
-      if (token) {
-        fetch("/save-song", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          },
-          body: JSON.stringify({ title, filePath }),
-        })
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            console.log("✅ Song saved successfully!");
-          } else {
-            console.error("❌ Failed to save song:", result.error);
-          }
-        })
-        .catch(error => {
-          console.error("❌ Error saving song:", error);
-        });
-      } else {
-        console.warn("⚠️ No JWT token found. Please log in again.");
-      }
-
+      // Show save/regenerate options
+      document.getElementById("postGenButtons").style.display = "flex";
     } else {
       alert("Failed to generate the full song.");
     }
@@ -178,6 +151,55 @@ document.getElementById("generateSongBtn")?.addEventListener("click", async () =
   } finally {
     document.getElementById("loadingOverlay").style.display = "none";
   }
+});
+
+// Save Song Button
+document.getElementById("saveSongBtn")?.addEventListener("click", async () => {
+  const genre = document.getElementById("genreSelect").value;
+  const token = localStorage.getItem('jwtToken');
+  const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
+  const filePath = document.getElementById("downloadLink").href;
+
+  if (token) {
+    try {
+      const res = await fetch("/save-song", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, filePath }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        alert("✅ Song saved successfully!");
+      } else {
+        alert("❌ Failed to save song.");
+      }
+    } catch (err) {
+      console.error("Save failed:", err);
+      alert("❌ Error saving the song.");
+    }
+  } else {
+    alert("⚠️ Not logged in.");
+  }
+});
+
+// Reset Button
+document.getElementById("resetBtn")?.addEventListener("click", () => {
+  quill.setText("");
+  document.getElementById("lyricsOutput").textContent = "";
+  document.getElementById("lyricsContainer").style.display = "none";
+  document.getElementById("finalPlayer").pause();
+  document.getElementById("finalPlayer").style.display = "none";
+  document.getElementById("downloadLink").style.display = "none";
+  document.getElementById("postGenButtons").style.display = "none";
+
+  document.querySelectorAll("details").forEach((el) => el.removeAttribute("open"));
+  document.querySelector("details").setAttribute("open", true);
+
+  document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("completed"));
 });
 
 // Helper function to mark completion
