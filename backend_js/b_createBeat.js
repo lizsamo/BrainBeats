@@ -108,7 +108,7 @@ router.post("/generate-full-song", async (req, res) => {
     classical: "Orchestral theme", reggae: "Island-style groove", rnb: "Soulful R&B vibe",
   };
 
-  const prompt = genrePrompts[genre.toLowerCase()] || "Fun educational style";
+  const prompt = `${genrePrompts[genre.toLowerCase()] || "Fun educational style"} Keep it short, around 60 seconds.`;
   const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
 
   try {
@@ -135,7 +135,7 @@ router.post("/generate-full-song", async (req, res) => {
     let tries = 0;
     let finalSongData = null;
 
-    while (tries++ < 30) {
+    while (tries++ < 25) {
       await new Promise(resolve => setTimeout(resolve, 3000));
       const statusRes = await fetch(`https://api.topmediai.com/v2/query?song_id=${songId}`, {
         headers: { "x-api-key": process.env.TOPMEDIAI_API_KEY }
@@ -147,10 +147,14 @@ router.post("/generate-full-song", async (req, res) => {
       console.log("🔍 Polling result raw:", JSON.stringify(result));
 
 
-      if (status === "FINISHED" || (songData?.audio && songData?.audio_duration !== -1)) {
+      if (
+        status === "FINISHED" ||
+        (songData?.audio && songData?.audio.includes("http"))
+      ) {
         finalSongData = songData;
         break;
       }
+      
     }
 
     if (!finalSongData?.audio) {
