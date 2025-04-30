@@ -62,6 +62,10 @@ app.use("/", signupRoutes);
 const loginRoutes = require("./backend_js/b_loginPage-script.js");
 app.use("/", loginRoutes);
 
+const myBeatsRoutes = require("./backend_js/b_mybeats.js");
+app.use("/", myBeatsRoutes);
+
+
 
 console.log(`🌐 Database Host: ${process.env.DB_HOST}`);
 console.log(`👤 Database User: ${process.env.DB_USER}`);

@@ -95,27 +95,73 @@ createFolderBtn.onclick = () => {
 
 renderFolders();
 
-// Enhancement: Interactive Playlist Tiles
-function enablePlaylistInteractivity() {
-  const sections = ["most-played", "recently-created"];
-  sections.forEach(id => {
-    const container = document.getElementById(id);
-    if (container) {
-      for (let i = 1; i <= 4; i++) {
-        const playlist = document.createElement("div");
-        playlist.className = "playlist";
-        playlist.innerHTML = `Playlist ${i} <span class="play-icon">▶️</span>`;
-        container.appendChild(playlist);
-      }
-    }
-  });
+document.addEventListener("DOMContentLoaded", async () => {
+  renderFolders();
 
-  document.querySelectorAll(".playlist").forEach((el) => {
-    el.addEventListener("click", () => {
-      document.querySelectorAll(".playlist").forEach(p => p.classList.remove("selected"));
-      el.classList.add("selected");
+  const token = localStorage.getItem("jwtToken");
+  if (!token) return alert("Please log in to view your beats.");
+
+  try {
+    const response = await fetch("/my-songs", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-  });
-}
 
-document.addEventListener("DOMContentLoaded", enablePlaylistInteractivity);
+    const data = await response.json();
+    if (data.success) {
+      const container = document.getElementById("recently-created");
+      container.innerHTML = "";
+
+      data.songs.forEach((song) => {
+        const testAudio = new Audio(song.file_path);
+
+        testAudio.addEventListener("loadedmetadata", () => {
+          if (testAudio.duration === 0 || isNaN(testAudio.duration)) {
+            console.warn("⛔ Skipping broken song:", song.title);
+            return;
+          }
+
+          const box = document.createElement("div");
+          box.className = "playlist";
+
+          const title = document.createElement("div");
+          title.textContent = song.title;
+
+          const audio = document.createElement("audio");
+          audio.controls = true;
+          audio.src = song.file_path;
+          audio.style.marginTop = "10px";
+          audio.style.width = "100%";
+
+          box.appendChild(title);
+          box.appendChild(audio);
+          container.appendChild(box);
+        });
+
+        testAudio.load(); // trigger metadata load
+      });
+    } else {
+      console.error("Failed to load songs:", data.error);
+    }
+  } catch (err) {
+    console.error("Error fetching songs:", err);
+  }
+
+  const container = document.getElementById("most-played");
+  if (container) {
+    for (let i = 1; i <= 4; i++) {
+      const playlist = document.createElement("div");
+      playlist.className = "playlist";
+      playlist.textContent = `Playlist ${i}`;
+      container.appendChild(playlist);
+    }
+
+    document.querySelectorAll(".playlist").forEach((el) => {
+      el.addEventListener("click", () => {
+        document.querySelectorAll(".playlist").forEach(p => p.classList.remove("selected"));
+        el.classList.add("selected");
+      });
+    });
+  }
+});
