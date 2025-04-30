@@ -176,12 +176,15 @@ router.post("/save-song", authenticateToken, async (req, res) => {
   }
 
   try {
-    await pool.query(
+    
+    const insertResult = await pool.query(
       `INSERT INTO generated_songs (user_id, title, file_path, created_at, is_private)
-       VALUES ($1, $2, $3, NOW(), false)`,
+       VALUES ($1, $2, $3, NOW(), false) RETURNING *`,
       [userId, title, filePath]
     );
-
+    
+    console.log("🎵 DB insert result:", insertResult.rows[0]);
+    
     console.log(`✅ Song saved for user_id: ${userId}`);
     res.json({ success: true, message: "Song saved successfully!" });
 
