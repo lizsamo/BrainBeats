@@ -1,8 +1,11 @@
 pdfplumber
 python-docx
 pymupdf
-pandas
+pytesseract
+easyocr
 pillow
+pandas
+
 
 # Use standard CPU-compatible PyTorch from PyPI
 torch
