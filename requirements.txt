@@ -2,7 +2,6 @@ pdfplumber
 python-docx
 pymupdf
 pytesseract
-easyocr
 pillow
 pandas
 
