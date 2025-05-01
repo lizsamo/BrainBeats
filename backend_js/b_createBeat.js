@@ -95,8 +95,8 @@ router.post("/generate", async (req, res) => {
 });
 
 // Generate full song
-// 1. Submit generation request and return songId immediately
 router.post("/generate-full-song", async (req, res) => {
+  console.log("🎶 /generate-full-song route hit");
   const { lyrics, genre } = req.body;
 
   if (!lyrics || !genre) {
@@ -110,7 +110,7 @@ router.post("/generate-full-song", async (req, res) => {
     classical: "Orchestral theme", reggae: "Island-style groove", rnb: "Soulful R&B vibe",
   };
 
-  const prompt = genrePrompts[genre.toLowerCase()] || "Fun educational style";
+  const prompt = `${genrePrompts[genre.toLowerCase()] || "Fun educational style"} Keep it short, around 60 seconds.`;
   const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
 
   try {
@@ -121,8 +121,15 @@ router.post("/generate-full-song", async (req, res) => {
         "x-api-key": process.env.TOPMEDIAI_API_KEY
       },
       body: JSON.stringify({
-        is_auto: 0, custom: 1, prompt, lyrics, title,
-        instrumental: 0, model_version: "v3.5", continue_at: 0, continue_song_id: ""
+        is_auto: 0,
+        custom: 1,
+        prompt,
+        lyrics,
+        title,
+        instrumental: 0,
+        model_version: "v3.5",
+        continue_at: 0,
+        continue_song_id: ""
       }),
     });
 
@@ -133,39 +140,47 @@ router.post("/generate-full-song", async (req, res) => {
       return res.status(500).json({ error: "Failed to get song ID", details: submissionResult });
     }
 
-    console.log("🎵 Async song submitted. ID:", songId);
-    res.json({ songId }); // ✅ return only song ID
-  } catch (err) {
-    console.error("❌ Song submission error:", err);
-    res.status(500).json({ error: "Submission failed." });
-  }
-});
+    console.log("🎵 Song submitted. ID:", songId);
 
-// 2. Frontend polls this route for completion status
-router.get("/check-song-status", async (req, res) => {
-  const { songId } = req.query;
-  if (!songId) return res.status(400).json({ error: "Missing songId" });
+    // 🔄 Optimized polling
+    let tries = 0;
+    let finalSongData = null;
 
-  try {
-    const statusRes = await fetch(`https://api.topmediai.com/v2/query?song_id=${songId}`, {
-      headers: { "x-api-key": process.env.TOPMEDIAI_API_KEY }
-    });
+    while (tries++ < 25) {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // ⏱ reduced from 3000ms to 1000ms
 
-    const result = await statusRes.json();
-    const songData = Array.isArray(result?.data) ? result.data[0] : result?.data;
-    const status = songData?.status?.toUpperCase();
+      const statusRes = await fetch(`https://api.topmediai.com/v2/query?song_id=${songId}`, {
+        headers: { "x-api-key": process.env.TOPMEDIAI_API_KEY }
+      });
 
-    if (status === "FINISHED" || (songData?.audio && songData?.audio.includes("http"))) {
-      return res.json({ done: true, audioUrl: songData.audio });
+      const result = await statusRes.json();
+      const songData = Array.isArray(result?.data) ? result.data[0] : result?.data;
+      const status = songData?.status?.toUpperCase();
+
+      console.log(`🔁 Polling attempt ${tries}: Status = ${status}`);
+
+      if (
+        status === "FINISHED" ||
+        (songData?.audio && songData?.audio.includes("http"))
+      ) {
+        finalSongData = songData;
+        break;
+      }
     }
 
-    res.json({ done: false });
+    if (!finalSongData?.audio) {
+      console.error("❌ Song generation timeout or failed.");
+      return res.status(504).json({ error: "Song still generating, please retry." });
+    }
+
+    console.log("✅ Song ready:", finalSongData.audio);
+    res.json({ audioUrl: finalSongData.audio });
+
   } catch (err) {
-    console.error("❌ Error checking song status:", err);
-    res.status(500).json({ error: "Status check failed." });
+    console.error("❌ Error during song generation:", err);
+    res.status(500).json({ error: "Failed to generate song." });
   }
 });
-
 
 
 // ✅ SECURE: Save song using user ID from JWT
