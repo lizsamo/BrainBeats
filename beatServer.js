@@ -80,6 +80,9 @@ pool.connect()
     console.error("❌ Database connection error:", err.message);
   });
 
+// ✅ Health check route for Render
+app.get('/healthz', (req, res) => res.send('OK'));
+
 // Start the server after database check
 app.listen(port, () => {
   console.log(`🚀 BrainBeats backend running at → http://localhost:${port}`);
