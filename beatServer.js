@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 require("dotenv").config();
 const { pool } = require("./db");
-
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = 3000;
@@ -12,7 +12,7 @@ const port = 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+//app.use(express.static(__dirname));
 
 // Static files
 app.use("/css", express.static(path.join(__dirname, "css")));
@@ -62,15 +62,12 @@ app.use("/", signupRoutes);
 const loginRoutes = require("./backend_js/b_loginPage-script.js");
 app.use("/", loginRoutes);
 
-const myBeatsRoutes = require("./backend_js/b_mybeats.js");
-app.use("/", myBeatsRoutes);
+const myBeatsRoutes = require("./backend_js/b_mybeats.js"); // Make sure this is correctly used
+app.use("/", myBeatsRoutes); // Ensure this is added
 
-
-
+// Database check
 console.log(`🌐 Database Host: ${process.env.DB_HOST}`);
 console.log(`👤 Database User: ${process.env.DB_USER}`);
-
-// Check the database connection when the server starts
 pool.connect()
   .then(client => {
     console.log("✅ Database connected successfully!");
@@ -80,10 +77,10 @@ pool.connect()
     console.error("❌ Database connection error:", err.message);
   });
 
-// ✅ Health check route for Render
+// Health check route for Render
 app.get('/healthz', (req, res) => res.send('OK'));
 
-// Start the server after database check
+// Start the server
 app.listen(port, () => {
   console.log(`🚀 BrainBeats backend running at → http://localhost:${port}`);
 });
