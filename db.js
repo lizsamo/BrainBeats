@@ -12,9 +12,12 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   ssl: {
     rejectUnauthorized: true,
-    ca: fs.readFileSync(process.env.DB_SSL_CA).toString(),
-    key: fs.readFileSync(process.env.DB_SSL_KEY).toString(),
-    cert: fs.readFileSync(process.env.DB_SSL_CERT).toString(),
+    // ca: fs.readFileSync(process.env.DB_SSL_CA).toString(),
+    // key: fs.readFileSync(process.env.DB_SSL_KEY).toString(),
+    // cert: fs.readFileSync(process.env.DB_SSL_CERT).toString(),
+    ca: process.env.DB_SSL_CA_CONTENT,
+    key: process.env.DB_SSL_KEY_CONTENT,
+    cert: process.env.DB_SSL_CERT_CONTENT,
     servername: '9-e86289c0-33e4-4507-9962-f716e9628115.us-west1.sql.goog' // Add this
   }
 });
