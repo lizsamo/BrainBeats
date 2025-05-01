@@ -95,11 +95,13 @@ router.post("/generate", async (req, res) => {
 });
 
 // Generate full song
+// 1. Submit generation request and return songId immediately
 router.post("/generate-full-song", async (req, res) => {
-  console.log("🎶 /generate-full-song route hit");
   const { lyrics, genre } = req.body;
 
-  if (!lyrics || !genre) return res.status(400).json({ error: "Missing lyrics or genre." });
+  if (!lyrics || !genre) {
+    return res.status(400).json({ error: "Missing lyrics or genre." });
+  }
 
   const genrePrompts = {
     pop: "Catchy pop style", edm: "Electronic dance beat", hiphop: "Energetic hip-hop flow",
@@ -108,7 +110,7 @@ router.post("/generate-full-song", async (req, res) => {
     classical: "Orchestral theme", reggae: "Island-style groove", rnb: "Soulful R&B vibe",
   };
 
-  const prompt = `${genrePrompts[genre.toLowerCase()] || "Fun educational style"} Keep it short, around 60 seconds.`;
+  const prompt = genrePrompts[genre.toLowerCase()] || "Fun educational style";
   const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
 
   try {
@@ -127,49 +129,44 @@ router.post("/generate-full-song", async (req, res) => {
     const submissionResult = await submission.json();
     const songId = submissionResult?.data?.[0]?.song_id;
 
-    if (!songId) return res.status(500).json({ error: "Failed to get song ID", details: submissionResult });
-
-    console.log("🎵 Song submitted. ID:", songId);
-
-    // Poll for audio completion
-    let tries = 0;
-    let finalSongData = null;
-
-    while (tries++ < 25) {
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      const statusRes = await fetch(`https://api.topmediai.com/v2/query?song_id=${songId}`, {
-        headers: { "x-api-key": process.env.TOPMEDIAI_API_KEY }
-      });
-      const result = await statusRes.json();
-      const songData = Array.isArray(result?.data) ? result.data[0] : result?.data;
-      const status = songData?.status?.toUpperCase();
-      console.log(`🔁 Polling attempt ${tries}: Status = ${status}`);
-      console.log("🔍 Polling result raw:", JSON.stringify(result));
-
-
-      if (
-        status === "FINISHED" ||
-        (songData?.audio && songData?.audio.includes("http"))
-      ) {
-        finalSongData = songData;
-        break;
-      }
-      
+    if (!songId) {
+      return res.status(500).json({ error: "Failed to get song ID", details: submissionResult });
     }
 
-    if (!finalSongData?.audio) {
-      console.error("❌ Song generation timeout or failed.");
-      return res.status(504).json({ error: "Song still generating, please retry." });
-    }
-
-    console.log("✅ Song ready:", finalSongData.audio);
-    res.json({ audioUrl: finalSongData.audio });
-
+    console.log("🎵 Async song submitted. ID:", songId);
+    res.json({ songId }); // ✅ return only song ID
   } catch (err) {
-    console.error("❌ Error during song generation:", err);
-    res.status(500).json({ error: "Failed to generate song." });
+    console.error("❌ Song submission error:", err);
+    res.status(500).json({ error: "Submission failed." });
   }
 });
+
+// 2. Frontend polls this route for completion status
+router.get("/check-song-status", async (req, res) => {
+  const { songId } = req.query;
+  if (!songId) return res.status(400).json({ error: "Missing songId" });
+
+  try {
+    const statusRes = await fetch(`https://api.topmediai.com/v2/query?song_id=${songId}`, {
+      headers: { "x-api-key": process.env.TOPMEDIAI_API_KEY }
+    });
+
+    const result = await statusRes.json();
+    const songData = Array.isArray(result?.data) ? result.data[0] : result?.data;
+    const status = songData?.status?.toUpperCase();
+
+    if (status === "FINISHED" || (songData?.audio && songData?.audio.includes("http"))) {
+      return res.json({ done: true, audioUrl: songData.audio });
+    }
+
+    res.json({ done: false });
+  } catch (err) {
+    console.error("❌ Error checking song status:", err);
+    res.status(500).json({ error: "Status check failed." });
+  }
+});
+
+
 
 // ✅ SECURE: Save song using user ID from JWT
 router.post("/save-song", authenticateToken, async (req, res) => {

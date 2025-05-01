@@ -113,35 +113,36 @@ document.addEventListener("DOMContentLoaded", async () => {
       const container = document.getElementById("recently-created");
       container.innerHTML = "";
 
-      data.songs.forEach((song) => {
+      data.songs.slice(0, 3).forEach((song) => {
         const testAudio = new Audio(song.file_path);
-
+      
         testAudio.addEventListener("loadedmetadata", () => {
           if (testAudio.duration === 0 || isNaN(testAudio.duration)) {
             console.warn("⛔ Skipping broken song:", song.title);
             return;
           }
-
+      
           const box = document.createElement("div");
           box.className = "playlist";
-
+      
           const title = document.createElement("div");
           title.textContent = song.title;
-
+      
           const audio = document.createElement("audio");
           audio.controls = true;
           audio.src = song.file_path;
           audio.style.marginTop = "10px";
           audio.style.width = "100%";
-
+      
           box.appendChild(title);
           box.appendChild(audio);
           container.prepend(box);
 
         });
-
-        testAudio.load(); // trigger metadata load
+      
+        testAudio.load();
       });
+      
     } else {
       console.error("Failed to load songs:", data.error);
     }

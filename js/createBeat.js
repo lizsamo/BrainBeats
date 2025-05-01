@@ -98,58 +98,81 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("generateSongBtn")?.addEventListener("click", async () => {
     const lyrics = document.getElementById("lyricsOutput").textContent.trim();
     const genre = document.getElementById("genreSelect").value;
-
+  
     if (!lyrics) {
       alert("Please generate lyrics first.");
       return;
     }
-
+  
     document.getElementById("loadingOverlay").style.display = "flex";
-
+  
     try {
-      const response = await fetch("/generate-full-song", {
+      // Step 1: Submit song generation request
+      const res = await fetch("/generate-full-song", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lyrics, genre })
       });
-
-      if (response.status === 504) {
-        alert("⏳ Song is still generating. Try clicking 'Generate Full Song' again in a few seconds.");
-        return;
-      }
-
-      if (!response.ok) {
-        alert("🚫 Failed to generate the full song. Please try again later.");
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.audioUrl) {
-        const audio = document.getElementById("finalPlayer");
-        audio.src = data.audioUrl;
-        audio.style.display = "block";
-        audio.play();
-
-        const downloadLink = document.getElementById("downloadLink");
-        downloadLink.href = data.audioUrl;
-        downloadLink.download = `brainbeat-${genre}.mp3`;
-        downloadLink.style.display = "inline-block";
-
-        markComplete("💾 Save Music");
-
-        document.getElementById("postGenButtons").style.display = "flex";
-      } else {
-        alert("Failed to generate the full song.");
-      }
-
+  
+      const { songId } = await res.json();
+      if (!songId) throw new Error("No songId returned");
+  
+      // Step 2: Poll the server every 2s for audio status
+      let tries = 0;
+      const interval = setInterval(async () => {
+        tries++;
+        if (tries > 30) {
+          clearInterval(interval);
+          alert("⏳ Song took too long to generate. Try again.");
+          document.getElementById("loadingOverlay").style.display = "none";
+          return;
+        }
+  
+        const checkRes = await fetch(`/check-song-status?songId=${songId}`);
+        const data = await checkRes.json();
+  
+        if (data.done) {
+          clearInterval(interval);
+  
+          // Play and display
+          const audio = document.getElementById("finalPlayer");
+          audio.src = data.audioUrl;
+          audio.style.display = "block";
+          audio.play();
+  
+          const downloadLink = document.getElementById("downloadLink");
+          downloadLink.href = data.audioUrl;
+          downloadLink.download = `brainbeat-${genre}.mp3`;
+          downloadLink.style.display = "inline-block";
+  
+          markComplete("💾 Save Music");
+          document.getElementById("postGenButtons").style.display = "flex";
+  
+          document.getElementById("loadingOverlay").style.display = "none";
+  
+          // Optional: auto-save song
+          const email = localStorage.getItem("userEmail");
+          const title = `BrainBeat - ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
+          const filePath = data.audioUrl;
+  
+          if (email) {
+            await fetch("/save-song", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, title, filePath }),
+            });
+          }
+  
+        }
+      }, 2000);
+  
     } catch (err) {
-      console.error("❌ Full song generation failed:", err);
+      console.error("❌ Song generation failed:", err);
       alert("Something went wrong.");
-    } finally {
       document.getElementById("loadingOverlay").style.display = "none";
     }
   });
+  
 
   // Save modal trigger
   document.getElementById("saveSongBtn")?.addEventListener("click", () => {
