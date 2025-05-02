@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("jwtToken");
   if (!token) return alert("Please log in to view your beats.");
 
-  await loadAllFolders();      // 🔁 new: fetch all folders from /my-folders
-  await loadFoldersAndSongs(); // 🔁 existing: still loads folders that contain songs
+  await loadAllFolders();
+  await loadFoldersAndSongs();
   setupNewFolderHandlers();
 });
 
@@ -135,16 +135,54 @@ function openFolderModal(folder) {
         if (!result.success) return alert(result.error || "Failed to move song.");
 
         alert("✅ Song moved successfully.");
-        await loadAllFolders();      // update folder list
-        await loadFoldersAndSongs(); // reload UI
+        await loadAllFolders();
+        await loadFoldersAndSongs();
       } catch (err) {
         console.error("❌ Error moving song:", err);
+      }
+    });
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "🗑️ Delete";
+    deleteBtn.className = "delete-button";
+    deleteBtn.style.marginTop = "10px";
+    deleteBtn.style.marginLeft = "10px";
+
+    deleteBtn.addEventListener("click", async () => {
+      if (!confirm(`Are you sure you want to delete "${song.title}"?`)) return;
+
+      const token = localStorage.getItem("jwtToken");
+      try {
+        const res = await fetch(`/delete-song/${song.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const result = await res.json();
+        if (!result.success) return alert(result.error || "Failed to delete song.");
+
+        alert("🗑️ Song deleted successfully.");
+        audioContainer.remove(); // ✅ remove from modal
+
+        // ✅ Also remove from Recently Created section
+        const recentCards = document.querySelectorAll("#recently-created .playlist");
+        recentCards.forEach(card => {
+          const audio = card.querySelector("audio");
+          if (audio && audio.src.includes(song.file_path)) {
+            card.remove();
+          }
+        });
+      } catch (err) {
+        console.error("❌ Error deleting song:", err);
       }
     });
 
     audioContainer.appendChild(title);
     audioContainer.appendChild(audio);
     audioContainer.appendChild(moveSelect);
+    audioContainer.appendChild(deleteBtn);
     songsList.appendChild(audioContainer);
   });
 
@@ -275,7 +313,3 @@ function setupNewFolderHandlers() {
     }
   });
 }
-
-
-
-

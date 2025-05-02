@@ -297,3 +297,18 @@ body {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
+
+.delete-button {
+  background-color: #FFFFFF;
+  border: 2px solid #000000;
+  color: #000000;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #f0f0f0;
+}

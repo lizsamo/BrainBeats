@@ -199,6 +199,39 @@ router.post("/move-song", authenticateToken, async (req, res) => {
   }
 });
 
+ 
+// ✅ Delete a song from any folder or Beats
+router.delete("/delete-song/:id", authenticateToken, async (req, res) => {
+  const userId = req.user?.userId;
+  const songId = req.params.id;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, error: "Unauthorized" });
+  }
+
+  try {
+    // Confirm the song belongs to the user
+    const songCheck = await pool.query(
+      `SELECT * FROM generated_songs WHERE song_id = $1 AND user_id = $2`,
+      [songId, userId]
+    );
+
+    if (songCheck.rows.length === 0) {
+      return res.status(404).json({ success: false, error: "Song not found or unauthorized" });
+    }
+
+    // Delete the song
+    await pool.query(`DELETE FROM generated_songs WHERE song_id = $1`, [songId]);
+
+    res.json({ success: true, message: "Song deleted successfully" });
+  } catch (err) {
+    console.error("❌ Error deleting song:", err.message);
+    res.status(500).json({ success: false, error: "Failed to delete song" });
+  }
+});
+
+
+
 module.exports = router;
 
 
