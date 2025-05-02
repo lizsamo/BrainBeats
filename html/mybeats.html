@@ -54,7 +54,7 @@
   <div id="folder-songs-modal" class="modal hidden">
     <div class="modal-content">
       <button class="close-btn" onclick="closeFolderModal()">✖️</button>
-      <h3>Songs in Beats Folder</h3>
+      <h3 id="folder-modal-title">Songs in Folder</h3>
       <div id="folder-songs-list"></div>
     </div>
   </div>
@@ -62,20 +62,20 @@
   <!-- New Folder Modal -->
   <div id="new-folder-modal" class="modal hidden">
     <div class="modal-content">
-      <button class="close-btn" onclick="document.getElementById('new-folder-modal').classList.add('hidden'); document.getElementById('modal-backdrop').classList.add('hidden');">✖️</button>
+      <button class="close-btn" onclick="hideNewFolderModal()">✖️</button>
       <h3>Create New Folder</h3>
       <input type="text" id="new-folder-name" placeholder="Enter folder name" />
       <div class="modal-buttons">
         <button id="create-folder-confirm">Create</button>
-        <button id="create-folder-cancel">Cancel</button>
+        <button id="create-folder-cancel" onclick="hideNewFolderModal()">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- Generic Modal (optional use) -->
+  <!-- Generic Modal -->
   <div id="modal" class="modal hidden">
     <div class="modal-content">
-      <button class="close-btn" onclick="document.getElementById('modal').classList.add('hidden'); document.getElementById('modal-backdrop').classList.add('hidden');">✖️</button>
+      <button class="close-btn" onclick="hideModal()">✖️</button>
       <p id="modal-message"></p>
       <input type="text" id="modal-input" class="hidden" />
       <div class="modal-buttons">
@@ -85,6 +85,22 @@
     </div>
   </div>
 
+  <script>
+    function closeFolderModal() {
+      document.getElementById("folder-songs-modal").classList.add("hidden");
+      document.getElementById("modal-backdrop").classList.add("hidden");
+    }
+
+    function hideNewFolderModal() {
+      document.getElementById("new-folder-modal").classList.add("hidden");
+      document.getElementById("modal-backdrop").classList.add("hidden");
+    }
+
+    function hideModal() {
+      document.getElementById("modal").classList.add("hidden");
+      document.getElementById("modal-backdrop").classList.add("hidden");
+    }
+  </script>
   <script src="../js/mybeats.js"></script>
 </body>
 </html>
