@@ -4,8 +4,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("jwtToken");
   if (!token) return alert("Please log in to view your beats.");
 
+  await loadFoldersAndSongs();
+  setupNewFolderHandlers();
+});
+
+// 🔁 Load folders and songs from backend
+async function loadFoldersAndSongs() {
+  const token = localStorage.getItem("jwtToken");
+
   try {
-    // Fetch all folders (including Beats) and their songs
     const songsRes = await fetch("/my-songs", {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -24,14 +31,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       saveFolders(folders);
       renderFolders(folders);
-      loadRecentlyCreatedSongs();  // Fetch and show the 4 most recent songs based on created_at
+      loadRecentlyCreatedSongs();
     } else {
       console.error("❌ Failed to load folders/songs:", songsData.error);
     }
   } catch (err) {
     console.error("❌ Error fetching /my-songs:", err);
   }
-});
+}
 
 function saveFolders(folders) {
   window._myFolders = folders;
@@ -93,9 +100,9 @@ function closeFolderModal() {
   document.getElementById("modal-backdrop").classList.add("hidden");
 }
 
+// 🔄 Load most recent 4 songs
 async function loadRecentlyCreatedSongs() {
-  const token = localStorage.getItem('jwtToken'); // 🔐 Get stored JWT
-
+  const token = localStorage.getItem('jwtToken');
   if (!token) {
     console.error("❌ No JWT found in localStorage.");
     return;
@@ -104,7 +111,7 @@ async function loadRecentlyCreatedSongs() {
   try {
     const res = await fetch("/recent-songs", {
       headers: {
-        Authorization: `Bearer ${token}` // ✅ Send JWT in header
+        Authorization: `Bearer ${token}`
       }
     });
 
@@ -118,15 +125,14 @@ async function loadRecentlyCreatedSongs() {
     const container = document.getElementById("recently-created");
     container.innerHTML = "";
 
-    // Sort songs by created_at in descending order and take the latest 4
     const sortedSongs = songs
       .slice()
       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-      .slice(0, 4); // Show the most recent 4
+      .slice(0, 4);
 
     sortedSongs.forEach(song => {
       const card = document.createElement("div");
-      card.className = "playlist"; // 🟡 Set class to "playlist" so the selector below works
+      card.className = "playlist";
       card.innerHTML = `
         <div class="song-info">
           <h3 class="song-title">${song.title}</h3>
@@ -136,9 +142,7 @@ async function loadRecentlyCreatedSongs() {
       container.appendChild(card);
     });
 
-    // 🔄 Apply click behavior AFTER songs are loaded
     applyPlaylistSelection();
-
   } catch (err) {
     console.error("❌ Error loading recent songs:", err.message);
   }
@@ -150,5 +154,51 @@ function applyPlaylistSelection() {
       document.querySelectorAll(".playlist").forEach(p => p.classList.remove("selected"));
       playlist.classList.add("selected");
     });
+  });
+}
+
+// 🟢 Folder creation logic
+function setupNewFolderHandlers() {
+  const modal = document.getElementById("new-folder-modal");
+  const nameInput = document.getElementById("new-folder-name");
+
+  document.getElementById("new-folder-btn").addEventListener("click", () => {
+    modal.classList.remove("hidden");
+    nameInput.value = "";
+    nameInput.focus();
+  });
+
+  document.getElementById("create-folder-cancel").addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  document.getElementById("create-folder-confirm").addEventListener("click", async () => {
+    const name = nameInput.value.trim();
+    if (!name) return alert("Please enter a folder name.");
+
+    const token = localStorage.getItem("jwtToken");
+
+    try {
+      const res = await fetch("/create-folder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ name })
+      });
+
+      const data = await res.json();
+      if (!data.success) return alert(data.error);
+
+      alert(`✅ Folder "${data.folder.name}" created!`);
+      modal.classList.add("hidden");
+
+      // Reload the folder list
+      await loadFoldersAndSongs();
+    } catch (err) {
+      console.error("❌ Error creating folder:", err.message);
+      alert("Error creating folder.");
+    }
   });
 }

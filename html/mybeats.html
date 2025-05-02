@@ -10,6 +10,7 @@
 </head>
 <body>
   <div class="container">
+    <!-- Sidebar -->
     <aside class="sidebar">
       <img src="https://i.imgur.com/tD9e0ce.png" alt="BrainBeats Logo" class="logo" />
       <div class="nav-links">
@@ -21,22 +22,26 @@
       </div>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
       <h1 class="title">My Beats</h1>
+
       <section class="section">
         <h2 class="section-title">Most Played</h2>
         <div class="playlist-grid" id="most-played"></div>
       </section>
+
       <section class="section">
         <h2 class="section-title">Recently Created</h2>
         <div class="playlist-grid" id="recently-created"></div>
       </section>
     </main>
 
+    <!-- Folders Panel -->
     <aside class="folders-panel">
       <div class="folders-header">
         <h2>Folders</h2>
-        <button id="create-folder" class="side-btn">+ New Folder</button>
+        <button id="new-folder-btn" class="side-btn">+ New Folder</button>
       </div>
       <div id="folders-container"></div>
     </aside>
@@ -54,7 +59,20 @@
     </div>
   </div>
 
-  <!-- Generic Confirmation/Prompt Modal -->
+  <!-- New Folder Modal -->
+  <div id="new-folder-modal" class="modal hidden">
+    <div class="modal-content">
+      <button class="close-btn" onclick="document.getElementById('new-folder-modal').classList.add('hidden'); document.getElementById('modal-backdrop').classList.add('hidden');">✖️</button>
+      <h3>Create New Folder</h3>
+      <input type="text" id="new-folder-name" placeholder="Enter folder name" />
+      <div class="modal-buttons">
+        <button id="create-folder-confirm">Create</button>
+        <button id="create-folder-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generic Modal (optional use) -->
   <div id="modal" class="modal hidden">
     <div class="modal-content">
       <button class="close-btn" onclick="document.getElementById('modal').classList.add('hidden'); document.getElementById('modal-backdrop').classList.add('hidden');">✖️</button>

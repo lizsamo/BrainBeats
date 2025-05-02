@@ -1,3 +1,4 @@
+//createBeat.js 
 let quill;
 window.addEventListener("DOMContentLoaded", () => {
   quill = new Quill("#editor", {
