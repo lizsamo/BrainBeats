@@ -4,67 +4,63 @@ const authenticateToken = require("./authMiddleware");
 
 const router = express.Router();
 
-// ✅ Return all songs for the user, grouped by folder (including "Beats" folder with songs)
+// ✅ Return folders (from folders table) and their songs (including Beats)
 router.get("/my-songs", authenticateToken, async (req, res) => {
   console.log("✅ /my-songs route hit");
 
   const userId = req.user?.userId;
   if (!userId) {
-    console.log("❌ User not authenticated");
     return res.status(401).json({ success: false, error: "User not authenticated" });
   }
 
   try {
     res.setHeader("Cache-Control", "no-store");
 
-    // Fetch songs from default "Beats" folder (folder_id IS NULL)
-    const beatSongsResult = await pool.query(
+    const folders = [];
+
+    // Get songs not in any folder (default "Beats" folder)
+    const beatsResult = await pool.query(
       `SELECT song_id, title, file_path, created_at
        FROM generated_songs
        WHERE user_id = $1 AND folder_id IS NULL
        ORDER BY created_at DESC`,
       [userId]
     );
-    console.log("✅ Beat songs result:", beatSongsResult.rows);
 
-    // Fetch user-created folders, excluding any folder literally named "Beats"
-    const foldersResult = await pool.query(
-      `SELECT folder_id, folder_name
-       FROM folders
-       WHERE user_id = $1 AND folder_name != 'Beats'
-       ORDER BY folder_name`,
-      [userId]
-    );
-    console.log("✅ Folders result:", foldersResult.rows);
-
-    const folders = [];
-
-    // Add "Beats" folder with unassigned songs
     folders.push({
+      id: null,
       name: "Beats",
-      songs: beatSongsResult.rows.map(song => ({
-        song_id: song.song_id,
+      songs: beatsResult.rows.map(song => ({
+        id: song.song_id,
         title: song.title,
         file_path: song.file_path,
         created_at: song.created_at,
       })),
     });
 
-    // Add custom folders with their songs
-    for (const folder of foldersResult.rows) {
-      const songsResult = await pool.query(
+    // Get user-created folders from the folders table
+    const userFoldersResult = await pool.query(
+      `SELECT folder_id, folder_name
+       FROM folders
+       WHERE user_id = $1
+       ORDER BY folder_name`,
+      [userId]
+    );
+
+    for (const folder of userFoldersResult.rows) {
+      const folderSongsResult = await pool.query(
         `SELECT song_id, title, file_path, created_at
          FROM generated_songs
          WHERE user_id = $1 AND folder_id = $2
          ORDER BY created_at DESC`,
         [userId, folder.folder_id]
       );
-      console.log(`✅ Songs for folder "${folder.folder_name}":`, songsResult.rows);
 
       folders.push({
+        id: folder.folder_id,
         name: folder.folder_name,
-        songs: songsResult.rows.map(song => ({
-          song_id: song.song_id,
+        songs: folderSongsResult.rows.map(song => ({
+          id: song.song_id,
           title: song.title,
           file_path: song.file_path,
           created_at: song.created_at,
@@ -74,18 +70,15 @@ router.get("/my-songs", authenticateToken, async (req, res) => {
 
     res.json({ success: true, folders });
   } catch (err) {
-    console.error("❌ Failed to fetch songs and folders:", err.message);
-    res.status(500).json({ success: false, error: "Failed to load songs and folders" });
+    console.error("❌ Failed to fetch folders and songs:", err.message);
+    res.status(500).json({ success: false, error: "Failed to load folders and songs" });
   }
 });
 
-// ✅ Endpoint to return the 4 most recent songs
+// ✅ Get 4 most recent songs
 router.get("/recent-songs", authenticateToken, async (req, res) => {
-  console.log("✅ /recent-songs route hit");
-
   const userId = req.user?.userId;
   if (!userId) {
-    console.log("❌ User not authenticated");
     return res.status(401).json({ success: false, error: "User not authenticated" });
   }
 
@@ -98,7 +91,6 @@ router.get("/recent-songs", authenticateToken, async (req, res) => {
        LIMIT 4`,
       [userId]
     );
-    console.log("✅ Recent songs result:", recentSongsResult.rows);
 
     res.json(recentSongsResult.rows);
   } catch (err) {
@@ -107,22 +99,17 @@ router.get("/recent-songs", authenticateToken, async (req, res) => {
   }
 });
 
-// ✅ Create a new folder
+// ✅ Create new folder
 router.post("/create-folder", authenticateToken, async (req, res) => {
   const userId = req.user?.userId;
   const { name } = req.body;
 
-  if (!userId) {
-    return res.status(401).json({ success: false, error: "User not authenticated" });
-  }
-
+  if (!userId) return res.status(401).json({ success: false, error: "User not authenticated" });
   if (!name || typeof name !== "string" || name.trim() === "") {
     return res.status(400).json({ success: false, error: "Folder name is required" });
   }
 
   const folderName = name.trim();
-
-  // Prevent creating a folder named "Beats"
   if (folderName.toLowerCase() === "beats") {
     return res.status(400).json({
       success: false,
@@ -158,4 +145,60 @@ router.post("/create-folder", authenticateToken, async (req, res) => {
   }
 });
 
+// ✅ Get all user folders (used for move-to dropdowns)
+router.get("/my-folders", authenticateToken, async (req, res) => {
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, error: "User not authenticated" });
+  }
+
+  try {
+    const result = await pool.query(
+      `SELECT folder_id, folder_name
+       FROM folders
+       WHERE user_id = $1
+       ORDER BY folder_name`,
+      [userId]
+    );
+
+    res.json({
+      success: true,
+      folders: result.rows,
+    });
+  } catch (err) {
+    console.error("❌ Failed to fetch folders:", err.message);
+    res.status(500).json({ success: false, error: "Failed to fetch folders" });
+  }
+});
+
+
+// ✅ Move a song to a different folder
+router.post("/move-song", authenticateToken, async (req, res) => {
+  const userId = req.user?.userId;
+  const { song_id, target_folder_id } = req.body;
+
+  if (!userId || !song_id) {
+    return res.status(400).json({ success: false, error: "Missing song ID or authentication" });
+  }
+
+  try {
+    let targetFolderId = target_folder_id || null; // null = "Beats"
+
+    await pool.query(
+      `UPDATE generated_songs
+       SET folder_id = $1
+       WHERE user_id = $2 AND song_id = $3`,
+      [targetFolderId, userId, song_id]
+    );
+
+    res.json({ success: true, message: "Song moved successfully" });
+  } catch (err) {
+    console.error("❌ Failed to move song:", err.message);
+    res.status(500).json({ success: false, error: "Failed to move song" });
+  }
+});
+
 module.exports = router;
+
+

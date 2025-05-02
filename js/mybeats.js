@@ -1,14 +1,36 @@
 // mybeats.js
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => { 
   const token = localStorage.getItem("jwtToken");
   if (!token) return alert("Please log in to view your beats.");
 
-  await loadFoldersAndSongs();
+  await loadAllFolders();      // 🔁 new: fetch all folders from /my-folders
+  await loadFoldersAndSongs(); // 🔁 existing: still loads folders that contain songs
   setupNewFolderHandlers();
 });
 
-// 🔁 Load folders and songs from backend
+async function loadAllFolders() {
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const res = await fetch("/my-folders", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      window._allFolders = data.folders.map(f => ({
+        id: f.folder_id,
+        name: f.folder_name
+      }));
+    } else {
+      console.error("❌ Failed to fetch all folders:", data.error);
+      window._allFolders = [];
+    }
+  } catch (err) {
+    console.error("❌ Error fetching /my-folders:", err);
+    window._allFolders = [];
+  }
+}
+
 async function loadFoldersAndSongs() {
   const token = localStorage.getItem("jwtToken");
 
@@ -21,8 +43,10 @@ async function loadFoldersAndSongs() {
 
     if (songsData.success && Array.isArray(songsData.folders)) {
       const folders = songsData.folders.map(f => ({
+        id: f.id,
         name: f.name,
         songs: f.songs.map(song => ({
+          id: song.id,
           title: song.title,
           file_path: song.file_path,
           created_at: song.created_at,
@@ -70,24 +94,75 @@ function openFolderModal(folder) {
 
   if (folder.songs.length === 0) {
     songsList.innerHTML = "<p>No songs in this folder.</p>";
-  } else {
-    folder.songs.forEach(song => {
-      const audioContainer = document.createElement("div");
-      audioContainer.className = "playlist";
+  }
 
-      const title = document.createElement("div");
-      title.textContent = song.title;
+  folder.songs.forEach(song => {
+    const audioContainer = document.createElement("div");
+    audioContainer.className = "playlist";
 
-      const audio = document.createElement("audio");
-      audio.controls = true;
-      audio.src = song.file_path;
-      audio.style.marginTop = "10px";
-      audio.style.width = "100%";
+    const title = document.createElement("div");
+    title.textContent = song.title;
 
-      audioContainer.appendChild(title);
-      audioContainer.appendChild(audio);
-      songsList.appendChild(audioContainer);
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.src = song.file_path;
+    audio.style.marginTop = "10px";
+    audio.style.width = "100%";
+
+    const moveSelect = document.createElement("select");
+    moveSelect.innerHTML = `<option value="">Move to...</option>` +
+      window._allFolders
+        .filter(f => f.id !== folder.id)
+        .map(f => `<option value="${f.id}">${f.name}</option>`)
+        .join("");
+
+    moveSelect.addEventListener("change", async (e) => {
+      const targetFolderId = e.target.value;
+      if (!targetFolderId) return;
+
+      const token = localStorage.getItem("jwtToken");
+      try {
+        const res = await fetch("/move-song", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ song_id: song.id, target_folder_id: targetFolderId }),
+        });
+
+        const result = await res.json();
+        if (!result.success) return alert(result.error || "Failed to move song.");
+
+        alert("✅ Song moved successfully.");
+        await loadAllFolders();      // update folder list
+        await loadFoldersAndSongs(); // reload UI
+      } catch (err) {
+        console.error("❌ Error moving song:", err);
+      }
     });
+
+    audioContainer.appendChild(title);
+    audioContainer.appendChild(audio);
+    audioContainer.appendChild(moveSelect);
+    songsList.appendChild(audioContainer);
+  });
+
+  if (folder.songs.length === 0) {
+    const moveSelectNote = document.createElement("p");
+    moveSelectNote.textContent = "No songs in this folder, but you can move songs to:";
+    songsList.appendChild(moveSelectNote);
+
+    const folderList = document.createElement("ul");
+    window._allFolders
+      .filter(f => f.id !== folder.id)
+      .forEach(f => {
+        const li = document.createElement("li");
+        li.textContent = f.name;
+        folderList.appendChild(li);
+      });
+
+    songsList.appendChild(folderList);
   }
 
   document.querySelector("#folder-songs-modal h3").textContent = `Songs in ${folder.name} Folder`;
@@ -100,7 +175,6 @@ function closeFolderModal() {
   document.getElementById("modal-backdrop").classList.add("hidden");
 }
 
-// 🔄 Load most recent 4 songs
 async function loadRecentlyCreatedSongs() {
   const token = localStorage.getItem('jwtToken');
   if (!token) {
@@ -157,7 +231,6 @@ function applyPlaylistSelection() {
   });
 }
 
-// 🟢 Folder creation logic
 function setupNewFolderHandlers() {
   const modal = document.getElementById("new-folder-modal");
   const nameInput = document.getElementById("new-folder-name");
@@ -194,7 +267,7 @@ function setupNewFolderHandlers() {
       alert(`✅ Folder "${data.folder.name}" created!`);
       modal.classList.add("hidden");
 
-      // Reload the folder list
+      await loadAllFolders();
       await loadFoldersAndSongs();
     } catch (err) {
       console.error("❌ Error creating folder:", err.message);
@@ -202,3 +275,7 @@ function setupNewFolderHandlers() {
     }
   });
 }
+
+
+
+
